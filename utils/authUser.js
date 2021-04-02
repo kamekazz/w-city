@@ -34,6 +34,7 @@ export const loginUser = async (user, setError, setLoading) => {
     const errorMsg = catchErrors(error);
     setError(errorMsg);
   }
+
   setLoading(false);
 };
 
