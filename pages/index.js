@@ -1,5 +1,7 @@
-import React from 'react';
+import StartingPageContent from '../components/starting-page/starting-page';
 
-export default function HomePage() {
-  return <div>home</div>;
+function HomePage() {
+  return <StartingPageContent />;
 }
+
+export default HomePage;
