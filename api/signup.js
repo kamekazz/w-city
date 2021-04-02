@@ -3,6 +3,7 @@ const router = express.Router();
 const UserModel = require('../models/UserModel');
 const hashedPassword = require('../utilsServer/auth');
 const isEmail = require('validator/lib/isEmail');
+const jwt = require('jsonwebtoken');
 const userPng =
   'https://res.cloudinary.com/indersingh/image/upload/v1593464618/App/user_mklcpl.png';
 
@@ -30,7 +31,6 @@ const userPng =
 router.post('/', async (req, res) => {
   const { email, password } = req.body;
   const lowerCaseEmail = email.toLowerCase();
-
   if (!isEmail(lowerCaseEmail))
     return res.status(422).json({ message: 'Invalid Email' });
 
@@ -39,7 +39,6 @@ router.post('/', async (req, res) => {
       .status(422)
       .json({ message: 'Password must be atleast 6 characters' });
   }
-
   try {
     const existingUser = await UserModel.findOne({ email: lowerCaseEmail });
     if (existingUser) {
@@ -54,16 +53,15 @@ router.post('/', async (req, res) => {
     });
     await user.save();
     const payload = { userId: user._id };
-    res.status(201).json({ message: 'Created user' });
-    // jwt.sign(
-    //   payload,
-    //   process.env.jwtSecret,
-    //   { expiresIn: '2d' },
-    //   (err, token) => {
-    //     if (err) throw err;
-    //     res.status(200).json(token);
-    //   }
-    // );
+    jwt.sign(
+      payload,
+      process.env.jwtSecret,
+      { expiresIn: '2d' },
+      (err, token) => {
+        if (err) throw err;
+        res.status(200).json({ message: 'Created user', token });
+      }
+    );
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);
