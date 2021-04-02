@@ -13,6 +13,20 @@ async function createUser(email, password) {
   }
   return data;
 }
+async function loginUser(email, password) {
+  const response = await fetch('/api/auth', {
+    method: 'POST',
+    body: JSON.stringify({ email, password }),
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || 'Something went wrong!!');
+  }
+  return data;
+}
+
 function AuthForm() {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -27,6 +41,12 @@ function AuthForm() {
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
     if (isLogin) {
+      try {
+        const result = await loginUser(enteredEmail, enteredPassword);
+        console.log(`result`, result);
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       try {
         const result = await createUser(enteredEmail, enteredPassword);
