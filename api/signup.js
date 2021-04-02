@@ -41,14 +41,13 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    let user;
-    user = await UserModel.findOne({ email: lowerCaseEmail });
-    if (user) {
+    const existingUser = await UserModel.findOne({ email: lowerCaseEmail });
+    if (existingUser) {
       return res.status(401).json({ message: 'User already registered' });
     }
     //
     const hashedPasswordValue = await hashedPassword(password);
-    user = new UserModel({
+    const user = new UserModel({
       email: lowerCaseEmail,
       password: hashedPasswordValue,
       profilePicUrl: req.body.profilePicUrl || userPng,
