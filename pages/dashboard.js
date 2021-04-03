@@ -1,3 +1,4 @@
+import { Container } from '@material-ui/core';
 import Dashboard from '../components/Dashboard';
 import withAuthorization from '../components/higherOrderComponents/withAuthorization';
 import AutoAddTitle from '../utils/AutoAddTitle';
@@ -8,7 +9,9 @@ function DashboardPage() {
     <>
       <AutoAddTitle title="Dashboard" />
       <UseNavBar hideNavbar={false} />
-      <Dashboard />
+      <Container>
+        <Dashboard />
+      </Container>
     </>
   );
 }
