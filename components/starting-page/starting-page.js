@@ -1,12 +1,14 @@
 import classes from './starting-page.module.css';
 import { Button } from '@material-ui/core';
+import { useRouter } from 'next/router';
 function StartingPageContent() {
-  // Show Link to Login page if NOT auth
-
+  const router = useRouter();
   return (
     <section className={classes.starting}>
       <h1>Welcome on Board!</h1>
-      <Button color="secondary">Hello World</Button>
+      <Button color="secondary" onClick={() => router.push('/auth')}>
+        click to Login
+      </Button>
     </section>
   );
 }

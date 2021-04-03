@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -22,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
 export default function ButtonAppBar() {
   const classes = useStyles();
   const toolState = useSelector((state) => state.toolReducer);
+  const authState = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -37,9 +39,15 @@ export default function ButtonAppBar() {
           <Typography variant="h6" className={classes.title}>
             {toolState.title}
           </Typography>
-          <Button color="secondary" variant="contained">
-            Login
-          </Button>
+          {authState.isAuthenticated && (
+            <Button
+              color="secondary"
+              onClick={() => dispatch({ type: 'LOGOUT' })}
+              variant="contained"
+            >
+              Login
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </div>
