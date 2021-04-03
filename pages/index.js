@@ -1,7 +1,8 @@
+import onlyGuest from '../components/higherOrderComponents/onlyGuest';
 import StartingPageContent from '../components/starting-page/starting-page';
 
 function HomePage() {
   return <StartingPageContent />;
 }
 
-export default HomePage;
+export default onlyGuest(HomePage);
