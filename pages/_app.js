@@ -7,6 +7,9 @@ import setAuthToken from '../utils/setAuthToken';
 
 import Layout from '../components/Layout/layout';
 import '../styles/globals.css';
+//styles
+import { ThemeProvider } from '@material-ui/core/styles';
+import { theme } from '../styles/muiTheme';
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -28,9 +31,11 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <ThemeProvider theme={theme}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ThemeProvider>
     </Provider>
   );
 }
