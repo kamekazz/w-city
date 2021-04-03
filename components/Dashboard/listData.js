@@ -1,25 +1,25 @@
 export const listData = [
   {
     title: 'Container',
-    subtitle: 'Constrainer Information',
+    subtitle: 'Admin control and Information',
     image:
       'https://steamcdn-a.akamaihd.net/apps/dota2/images/blog/play/dota_heroes.png',
   },
   {
-    title: 'Container',
-    subtitle: 'Constrainer Information',
+    title: 'Product',
+    subtitle: 'Pallet Configuration',
     image:
       'https://steamcdn-a.akamaihd.net/apps/dota2/images/blog/play/dota_heroes.png',
   },
   {
-    title: 'Container',
-    subtitle: 'Constrainer Information',
+    title: 'Count',
+    subtitle: 'Pallet Runner',
     image:
       'https://steamcdn-a.akamaihd.net/apps/dota2/images/blog/play/dota_heroes.png',
   },
   {
-    title: 'Container',
-    subtitle: 'Constrainer Information',
+    title: 'Display Line',
+    subtitle: 'line A,line B,line C,line D',
     image:
       'https://steamcdn-a.akamaihd.net/apps/dota2/images/blog/play/dota_heroes.png',
   },

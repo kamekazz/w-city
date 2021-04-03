@@ -21,9 +21,8 @@ export const SolidGameCardDemo = React.memo(function SolidGameCard() {
     <>
       <Grid classes={gridStyles} container spacing={4} wrap={'nowrap'}>
         {listData.map((card) => (
-          <Grid item>
+          <Grid item key={card.title}>
             <CustomCard
-              key={card.title}
               title={card.title}
               subtitle={card.subtitle}
               image={card.image}
