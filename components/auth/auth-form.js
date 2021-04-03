@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react';
 import classes from './auth-form.module.css';
+import { useDispatch } from 'react-redux';
+import { login } from '../../redux/auth';
 async function createUser(email, password) {
   const response = await fetch('/api/signup', {
     method: 'POST',
@@ -31,7 +33,7 @@ function AuthForm() {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const [isLogin, setIsLogin] = useState(true);
-
+  const dispatch = useDispatch();
   function switchAuthModeHandler() {
     setIsLogin((prevState) => !prevState);
   }
@@ -41,12 +43,7 @@ function AuthForm() {
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
     if (isLogin) {
-      try {
-        const result = await loginUser(enteredEmail, enteredPassword);
-        console.log(`result`, result);
-      } catch (error) {
-        console.log(error);
-      }
+      dispatch(login(enteredEmail, enteredPassword));
     } else {
       try {
         const result = await createUser(enteredEmail, enteredPassword);
