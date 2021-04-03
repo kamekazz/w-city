@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 
 import CustomCard from './CustomCard';
 import { listData } from './listData';
@@ -12,25 +11,26 @@ const useGridStyles = makeStyles(({ breakpoints }) => ({
       justifyContent: 'center',
     },
   },
+  cardContainer: {
+    maxWidth: 200,
+  },
 }));
 
 export const SolidGameCardDemo = React.memo(function SolidGameCard() {
-  const gridStyles = useGridStyles();
+  const classes = useGridStyles();
 
   return (
-    <>
-      <Grid classes={gridStyles} container spacing={4} wrap={'nowrap'}>
-        {listData.map((card) => (
-          <Grid item key={card.title}>
-            <CustomCard
-              title={card.title}
-              subtitle={card.subtitle}
-              image={card.image}
-            />
-          </Grid>
-        ))}
-      </Grid>
-    </>
+    <div>
+      {listData.map((card) => (
+        <div item key={card.title} className={classes.cardContainer}>
+          <CustomCard
+            title={card.title}
+            subtitle={card.subtitle}
+            image={card.image}
+          />
+        </div>
+      ))}
+    </div>
   );
 });
 export default SolidGameCardDemo;

@@ -6,7 +6,7 @@ function Layout(props) {
   return (
     <>
       {!toolReducer.hideNavbar && <Header />}
-      <main>{props.children}</main>
+      {props.children}
     </>
   );
 }
