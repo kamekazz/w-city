@@ -32,7 +32,6 @@ store.subscribe(() => {
     const token = currentState.auth.token;
     setAuthToken(token);
   }
-  const localToken = localStorage.getItem('token');
 });
 
 export default store;

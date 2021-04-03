@@ -8,13 +8,9 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 router.get('/', authMiddleware, async (req, res) => {
   const { userId } = req;
-
   try {
     const user = await UserModel.findById(userId);
-
-    const userFollowStats = await FollowerModel.findOne({ user: userId });
-
-    return res.status(200).json({ user, userFollowStats });
+    return res.status(200).json({ user });
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);

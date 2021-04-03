@@ -10,8 +10,7 @@ const ADD_TOKEN = 'ADD_TOKEN';
 // Load User
 export const loadUser = () => async (dispatch) => {
   try {
-    const res = await api.get('/auth');
-
+    const res = await api.get('/api/auth');
     dispatch({
       type: USER_LOADED,
       payload: res.data,
@@ -49,7 +48,6 @@ export const register = (formData) => async (dispatch) => {
 // Login User
 export const login = (email, password) => async (dispatch) => {
   const body = { email, password };
-
   try {
     const res = await api.post('/api/auth', body);
 
@@ -69,7 +67,6 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => ({ type: LOGOUT });
 
 const initialState = {
-  // token: localStorage.getItem('token'),
   token: null,
   isAuthenticated: null,
   loading: true,
@@ -89,7 +86,7 @@ function authReducer(state = initialState, action) {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: payload,
+        user: payload.user,
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:

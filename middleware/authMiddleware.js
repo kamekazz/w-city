@@ -1,17 +1,20 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
-module.exports = (req, res, next) => {
+module.exports = function (req, res, next) {
+  // Get token from header
+  const token = req.header('x-auth-token');
+  // Check if not token
+  if (!token) {
+    return res.status(401).json({ msg: 'No token, authorization denied' });
+  }
+
+  // Verify token
   try {
-    if (!req.headers.authorization) {
-      return res.status(401).send(`Unauthorized`);
-    }
-
-    const { userId } = jwt.verify(req.headers.authorization, process.env.jwtSecret);
-
+    const { userId } = jwt.verify(token, process.env.jwtSecret);
     req.userId = userId;
     next();
-  } catch (error) {
-    console.error(error);
-    return res.status(401).send(`Unauthorized`);
+  } catch (err) {
+    console.error('something wrong with auth middleware');
+    res.status(500).json({ msg: 'Server Error' });
   }
 };
