@@ -15,7 +15,7 @@ const useGridStyles = makeStyles(({ breakpoints }) => ({
     display: 'flex',
     flexWrap: 'wrap',
     width: '100%',
-    backgroundColor: 'red',
+
     justifyContent: 'space-between',
     [breakpoints.down('sm')]: {
       justifyContent: 'space-around',
@@ -46,6 +46,7 @@ export const SolidGameCardDemo = React.memo(function SolidGameCard() {
             title={card.title}
             subtitle={card.subtitle}
             image={card.image}
+            to={card.to}
           />
         </div>
       ))}

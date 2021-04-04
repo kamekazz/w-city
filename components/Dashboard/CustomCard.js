@@ -6,6 +6,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { useFourThreeCardMediaStyles } from '@mui-treasury/styles/cardMedia/fourThree';
 import { makeStyles } from '@material-ui/core/styles';
 import Color from 'color';
+import { useRouter } from 'next/router';
 const useStyles = makeStyles(() => ({
   actionArea: {
     borderRadius: 16,
@@ -44,11 +45,15 @@ const useStyles = makeStyles(() => ({
     fontSize: 14,
   },
 }));
-const CustomCard = ({ image, title, subtitle }) => {
+const CustomCard = ({ image, title, subtitle, to }) => {
+  const router = useRouter();
   const mediaStyles = useFourThreeCardMediaStyles();
   const classes = useStyles({ color: '#203f52' });
   return (
-    <CardActionArea className={classes.actionArea}>
+    <CardActionArea
+      className={classes.actionArea}
+      onClick={() => router.push(to)}
+    >
       <Card className={classes.card}>
         <CardMedia classes={mediaStyles} image={image} />
         <CardContent className={classes.content}>
