@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import store from '../redux/store';
 import { loadUser } from '../redux/auth';
 import setAuthToken from '../utils/setAuthToken';
-
+import Head from 'next/head';
 import Layout from '../components/Layout/layout';
 import '../styles/globals.css';
 //styles
@@ -12,7 +12,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { theme } from '../styles/muiTheme';
 import Router from 'next/router';
 import NProgress from 'nprogress'; //nprogress module
-import 'nprogress/nprogress.css'; //styles of nprogress
+
 //Binding events.
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -36,13 +36,21 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ThemeProvider>
-    </Provider>
+    <>
+      <Head>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+      </Head>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ThemeProvider>
+      </Provider>
+    </>
   );
 }
 

@@ -3,7 +3,7 @@ export const listData = [
     title: 'Container',
     subtitle: 'Admin control and Information',
     image: '/images/dashboard/container.jpg',
-    to: '/container',
+    to: '/containers',
   },
   {
     title: 'Products',
