@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
   constrainer: {
     paddingTop: '1rem',
     height: 'calc(100vh - 4rem)',
-    overflow: 'hidden',
   },
 }));
 

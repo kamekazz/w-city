@@ -11,8 +11,27 @@ const useGridStyles = makeStyles(({ breakpoints }) => ({
       justifyContent: 'center',
     },
   },
+  cardList: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    width: '100%',
+    backgroundColor: 'red',
+    justifyContent: 'space-between',
+    [breakpoints.down('sm')]: {
+      justifyContent: 'space-around',
+    },
+    [breakpoints.down('xs')]: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column ',
+    },
+  },
   cardContainer: {
-    maxWidth: 200,
+    maxWidth: 300,
+    margin: '1rem 1rem',
+    [breakpoints.down('xs')]: {
+      margin: ' 1rem 0',
+    },
   },
 }));
 
@@ -20,9 +39,9 @@ export const SolidGameCardDemo = React.memo(function SolidGameCard() {
   const classes = useGridStyles();
 
   return (
-    <div>
+    <div className={classes.cardList}>
       {listData.map((card) => (
-        <div item key={card.title} className={classes.cardContainer}>
+        <div key={card.title} className={classes.cardContainer}>
           <CustomCard
             title={card.title}
             subtitle={card.subtitle}
