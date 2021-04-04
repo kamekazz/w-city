@@ -68,7 +68,7 @@ export const logout = () => ({ type: LOGOUT });
 
 const initialState = {
   token: null,
-  isAuthenticated: null,
+  isAuthenticated: true,
   loading: true,
   user: null,
 };
