@@ -16,7 +16,7 @@ function ContainersPage() {
   const classes = useStyles();
   return (
     <>
-      <AutoAddTitle title="ContainersPage" />
+      <AutoAddTitle title="Containers" />
       <UseNavBar hideNavbar={false} />
       <Container component="main" className={classes.constrainer}>
         <div>constrainer page</div>
