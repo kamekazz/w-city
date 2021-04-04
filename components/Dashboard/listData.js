@@ -2,29 +2,25 @@ export const listData = [
   {
     title: 'Container',
     subtitle: 'Admin control and Information',
-    image:
-      'https://steamcdn-a.akamaihd.net/apps/dota2/images/blog/play/dota_heroes.png',
+    image: '/images/dashboard/container.jpg',
     to: '/container',
   },
   {
     title: 'Products',
     subtitle: 'Pallet Configuration',
-    image:
-      'https://steamcdn-a.akamaihd.net/apps/dota2/images/blog/play/dota_heroes.png',
+    image: '/images/dashboard/products.jpg',
     to: '/products',
   },
   {
     title: 'Counts',
     subtitle: 'Pallet Runner',
-    image:
-      'https://steamcdn-a.akamaihd.net/apps/dota2/images/blog/play/dota_heroes.png',
+    image: '/images/dashboard/counts.jpg',
     to: '/counts',
   },
   {
     title: 'Display Line',
     subtitle: 'line A,line B,line C,line D',
-    image:
-      'https://steamcdn-a.akamaihd.net/apps/dota2/images/blog/play/dota_heroes.png',
+    image: '/images/dashboard/display_line.jpeg',
     to: '/display_line',
   },
 ];
