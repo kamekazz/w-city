@@ -12,6 +12,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { theme } from '../styles/muiTheme';
 import Router from 'next/router';
 import NProgress from 'nprogress'; //nprogress module
+import SnackbarComponents from '../components/Common/SnackbarComponents';
 
 //Binding events.
 Router.events.on('routeChangeStart', () => NProgress.start());
@@ -46,6 +47,7 @@ function MyApp({ Component, pageProps }) {
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <Layout>
+            <SnackbarComponents />
             <Component {...pageProps} />
           </Layout>
         </ThemeProvider>
