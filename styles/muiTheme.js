@@ -9,7 +9,7 @@ const theme = createMuiTheme({
       main: '#4daa50',
     },
     common: {
-      arcBlue: '#0B72B9',
+      grayBlue: '#203f52',
       arcOrange: '#FFBA60',
     },
   },

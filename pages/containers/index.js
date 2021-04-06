@@ -1,15 +1,14 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container } from '@material-ui/core';
 
 import withAuthorization from '../../components/higherOrderComponents/withAuthorization';
 import AutoAddTitle from '../../utils/AutoAddTitle';
 import UseNavBar from '../../utils/useNavBar';
+import AdminControl from '../../components/Container/AdminControl';
 
 const useStyles = makeStyles((theme) => ({
   constrainer: {
     paddingTop: '1rem',
-    height: 'calc(100vh - 4rem)',
   },
 }));
 function ContainersPage() {
@@ -18,9 +17,9 @@ function ContainersPage() {
     <>
       <AutoAddTitle title="Containers" />
       <UseNavBar hideNavbar={false} />
-      <Container component="main" className={classes.constrainer}>
-        <div>constrainer page</div>
-      </Container>
+      <div className={classes.constrainer}>
+        <AdminControl />
+      </div>
     </>
   );
 }
