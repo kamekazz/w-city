@@ -10,7 +10,7 @@ body {
 
 ::selection {
   background-color: #005195;
-  color: #4daa50;
+  color: #cfebd0;
 }
 ::-webkit-scrollbar {
   width: 12px;

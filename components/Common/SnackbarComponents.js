@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -10,9 +9,6 @@ export default function SimpleSnackbar() {
     (state) => state.snackbarReducer
   );
   const dispatch = useDispatch();
-  const handleClick = () => {
-    dispatch({ type: 'OPEN_SNACK_BAR', payload: 'how big' });
-  };
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -23,8 +19,7 @@ export default function SimpleSnackbar() {
   };
 
   return (
-    <div>
-      <Button onClick={handleClick}>Open simple snackbar</Button>
+    <>
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
@@ -47,6 +42,6 @@ export default function SimpleSnackbar() {
           </>
         }
       />
-    </div>
+    </>
   );
 }
