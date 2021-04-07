@@ -4,6 +4,9 @@ import React from 'react';
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '1rem',
+    [theme.breakpoints.down('xs')]: {
+      margin: '0',
+    },
   },
   card: {
     color: theme.palette.common.white,
