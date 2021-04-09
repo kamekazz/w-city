@@ -7,9 +7,7 @@ import UseNavBar from '../../utils/useNavBar';
 import AdminControl from '../../components/Container/AdminControl';
 
 const useStyles = makeStyles((theme) => ({
-  constrainer: {
-    paddingTop: '1rem',
-  },
+  constrainer: {},
 }));
 function ContainersPage() {
   const classes = useStyles();
