@@ -110,8 +110,8 @@ export default function AddProductForm() {
             }}
           />
           <TextField
-            name="Count"
-            label="count"
+            name="totalCount"
+            label="Total Count"
             variant="outlined"
             InputProps={{
               classes: {
