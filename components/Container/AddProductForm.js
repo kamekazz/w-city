@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   textInputIbm: {
     fontSize: 30,
     color: theme.palette.secondary.dark,
+    letterSpacing: 3,
   },
   importantForm: {
     display: 'flex',
