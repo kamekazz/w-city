@@ -120,8 +120,8 @@ export default function AddProductForm() {
             }}
           />
           <TextField
-            name="msCount"
-            label="MS count"
+            name="msUOM"
+            label="MS UOM"
             variant="outlined"
             InputProps={{
               classes: {
@@ -132,8 +132,8 @@ export default function AddProductForm() {
         </Paper>
         <Paper className={classes.sizeForm}>
           <TextField
-            name="plCount"
-            label="PL count"
+            name="plUOM"
+            label="PL UOM"
             variant="outlined"
             InputProps={{
               classes: {
@@ -162,8 +162,8 @@ export default function AddProductForm() {
             }}
           />
           <TextField
-            name="p1Count"
-            label="P1 count"
+            name="p1UOM"
+            label="P1 UOM"
             variant="outlined"
             InputProps={{
               classes: {

@@ -17,6 +17,7 @@ io.on('connection', (socket) => {});
 nextApp.prepare().then(() => {
   app.use('/api/signup', require('./api/signup'));
   app.use('/api/auth', require('./api/auth'));
+  app.use('/api/product', require('./api/product'));
 
   app.all('*', (req, res) => handle(req, res));
 

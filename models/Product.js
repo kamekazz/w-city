@@ -14,15 +14,18 @@ const ProductSchema = new Schema(
     plUOM: { type: Number },
     p1UOM: { type: Number },
 
-    palletStatus: { type: String, trim: true },
+    palletStatus: { type: String, trim: true, default: 'pl' }, //add to ui
     plTi: { type: Number },
     plHi: { type: Number },
+    plMaxHeight: { type: Number }, //add to ui
     p1Ti: { type: Number },
     p1Hi: { type: Number },
+    p1MaxHeight: { type: Number }, //add to ui
 
     msLength: { type: Number },
     msWidth: { type: Number },
     msHeight: { type: Number },
+    palletImages: [{ type: String, trim: true }],
   },
   { timestamps: true }
 );
