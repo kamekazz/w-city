@@ -25,7 +25,8 @@ const ProductSchema = new Schema(
     msLength: { type: Number },
     msWidth: { type: Number },
     msHeight: { type: Number },
-    palletImages: [{ type: String, trim: true }],
+    palletImagesPl: [{ type: String, trim: true }],
+    palletImagesP1: [{ type: String, trim: true }],
   },
   { timestamps: true }
 );
