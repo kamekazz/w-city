@@ -1,6 +1,11 @@
 import React from 'react';
 import { Button, Container, makeStyles, Paper } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
+import FormLabel from '@material-ui/core/FormLabel';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,12 +58,18 @@ const useStyles = makeStyles((theme) => ({
   sizeForm: {
     maxWidth: 700,
     display: 'flex',
-    flexWrap: 'wrap',
+    // flexWrap: 'wrap',
     justifyContent: 'space-between',
+  },
+  palletSize: {
     '& > *': {
       width: '10rem',
       margin: theme.spacing(1),
     },
+  },
+  palletConfig: {
+    minWidth: '10rem',
+    padding: '1rem',
   },
   statusForm: {
     padding: '1rem',
@@ -68,6 +79,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddProductForm() {
   const classes = useStyles();
+
+  const [value, setValue] = React.useState('pl');
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
 
   return (
     <Container className={classes.root}>
@@ -131,66 +148,81 @@ export default function AddProductForm() {
           />
         </Paper>
         <Paper className={classes.sizeForm}>
-          <TextField
-            name="plUOM"
-            label="PL UOM"
-            variant="outlined"
-            InputProps={{
-              classes: {
-                input: classes.textInput,
-              },
-            }}
-          />
-          <TextField
-            name="plTi"
-            label="PL Ti"
-            variant="outlined"
-            InputProps={{
-              classes: {
-                input: classes.textInput,
-              },
-            }}
-          />
-          <TextField
-            name="plHi"
-            label="PL Hi"
-            variant="outlined"
-            InputProps={{
-              classes: {
-                input: classes.textInput,
-              },
-            }}
-          />
-          <TextField
-            name="p1UOM"
-            label="P1 UOM"
-            variant="outlined"
-            InputProps={{
-              classes: {
-                input: classes.textInput,
-              },
-            }}
-          />
-          <TextField
-            name="p1Ti"
-            label="P1 Ti"
-            variant="outlined"
-            InputProps={{
-              classes: {
-                input: classes.textInput,
-              },
-            }}
-          />
-          <TextField
-            name="p1Hi"
-            label="P1 Hi"
-            variant="outlined"
-            InputProps={{
-              classes: {
-                input: classes.textInput,
-              },
-            }}
-          />
+          <div className={classes.palletSize}>
+            <TextField
+              name="plUOM"
+              label="PL UOM"
+              variant="outlined"
+              InputProps={{
+                classes: {
+                  input: classes.textInput,
+                },
+              }}
+            />
+            <TextField
+              name="plTi"
+              label="PL Ti"
+              variant="outlined"
+              InputProps={{
+                classes: {
+                  input: classes.textInput,
+                },
+              }}
+            />
+            <TextField
+              name="plHi"
+              label="PL Hi"
+              variant="outlined"
+              InputProps={{
+                classes: {
+                  input: classes.textInput,
+                },
+              }}
+            />
+
+            <TextField
+              name="p1UOM"
+              label="P1 UOM"
+              variant="outlined"
+              InputProps={{
+                classes: {
+                  input: classes.textInput,
+                },
+              }}
+            />
+            <TextField
+              name="p1Ti"
+              label="P1 Ti"
+              variant="outlined"
+              InputProps={{
+                classes: {
+                  input: classes.textInput,
+                },
+              }}
+            />
+            <TextField
+              name="p1Hi"
+              label="P1 Hi"
+              variant="outlined"
+              InputProps={{
+                classes: {
+                  input: classes.textInput,
+                },
+              }}
+            />
+          </div>
+          <div className={classes.palletConfig}>
+            <FormLabel component="legend">Pallet Config</FormLabel>
+            <RadioGroup
+              aria-label="pallet-config"
+              name="palletStatus"
+              value={value}
+              onChange={handleChange}
+            >
+              <FormControlLabel value="pl" control={<Radio />} label="PL" />
+              <FormControlLabel value="p1" control={<Radio />} label="P1" />
+            </RadioGroup>
+          </div>
         </Paper>
       </form>
       <div className={classes.msContainer}>
