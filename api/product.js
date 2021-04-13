@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ProductModel = require('../models/ProductModel');
+const { default: uploadPic } = require('../utils/uploadPicToCloudinary');
 
 router.get('/:product', async (req, res) => {
   const { ibm } = req.params;
@@ -23,10 +24,10 @@ router.post('/', async (req, res) => {
 
   try {
     const existingProduct = await ProductModel.findOne({ ibm });
-    if (!existingProduct) {
+    if (existingProduct) {
       return res
         .status(401)
-        .json({ message: `Don't exist Product already registered` });
+        .json({ message: `Don't Product already registered` });
     }
     const product = new ProductModel({
       activeCount: 0,
@@ -41,21 +42,22 @@ router.post('/', async (req, res) => {
   }
 });
 //localhost:3000/api/product/get_pallet_config
-http: router.post('/get_pallet_config', async (req, res) => {
+// Make sure is in inches not millimeters and pallet to 40X48  on onpallet.com.
+router.post('/get_pallet_config', async (req, res) => {
   const { ibm, msLength, msWidth, msHeight, loadingHeight } = req.body;
 
   try {
-    const existingProduct = await UserModel.findOne({ ibm });
-    if (existingProduct) {
-      return res.status(401).json({ message: 'Product already registered' });
-    }
-    const product = new ProductModel({
-      activeCount: 0,
-      ...req.body,
-      alias: lowerCaseAlias,
-      status: 'loading',
-    });
-    await product.save();
+    // This is the information I need back from the website.
+    // 1 The image URL of the palette
+    // Use this function to upload the image to Cloudinary and then get back the URL uploadPic()
+    // 2 n packages
+    // 3 n layers
+    // 4 Surface usage
+    // 5 Volume usage
+    // 6 Total weight
+    // Please save all the information on a random object.
+    let webInfo = {};
+    // After you get me the information, I'll save it in my database at my liking.
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);

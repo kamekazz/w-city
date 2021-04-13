@@ -14,7 +14,7 @@ const ProductSchema = new Schema(
     plUOM: { type: Number },
     p1UOM: { type: Number },
 
-    palletStatus: { type: String, trim: true, default: 'pl' }, //add to ui
+    palletStatus: { type: String, trim: true, default: 'pl' },
     plTi: { type: Number },
     plHi: { type: Number },
     plMaxHeight: { type: Number }, //add to ui

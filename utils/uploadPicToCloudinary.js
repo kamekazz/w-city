@@ -1,4 +1,4 @@
-import axios from 'axios';
+const axios = require('axios');
 
 const uploadPic = async (media) => {
   try {
@@ -14,4 +14,4 @@ const uploadPic = async (media) => {
   }
 };
 
-export default uploadPic;
+module.exports = uploadPic;
