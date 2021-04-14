@@ -17,7 +17,7 @@ router.get('/:product', async (req, res) => {
     return res.status(500).send(`Server error`);
   }
 });
-
+//localhost:3000/api/product
 router.post('/', async (req, res) => {
   const { ibm, alias } = req.body;
   const lowerCaseAlias = alias.toLowerCase();
@@ -56,7 +56,7 @@ router.post('/get_pallet_config', async (req, res) => {
     // 5 Volume usage
     // 6 Total weight
     // Please save all the information on a random object.
-    let webInfo = {};
+    let webInfo = {}; //<=
     // After you get me the information, I'll save it in my database at my liking.
   } catch (error) {
     console.error(error);

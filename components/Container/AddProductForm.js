@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Container, makeStyles, Paper } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
@@ -6,6 +6,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import FormLabel from '@material-ui/core/FormLabel';
+import { acAddProduct } from '../../redux/containerAdmin';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,16 +81,45 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddProductForm() {
   const classes = useStyles();
-
   const [value, setValue] = React.useState('pl');
-
+  const [inputs, setInputs] = useState({
+    ibm: { value: '' },
+    alias: { value: '' },
+  });
+  const dispatch = useDispatch();
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
+  function onChange(event) {
+    const newValue = event.target.value;
+    const inputName = event.target.name;
+    setInputs((prevState) => {
+      return {
+        ...prevState,
+        [inputName]: {
+          ...prevState[inputName],
+          value: newValue,
+          dirty: true,
+        },
+      };
+    });
+  }
+
+  const onSubmitNewProduct = (e) => {
+    e.preventDefault();
+    let ibm = inputs.ibm.value;
+    let alias = inputs.alias.value;
+    dispatch(acAddProduct({ ibm, alias }));
+  };
+
   return (
     <Container className={classes.root}>
-      <form autoComplete="off" className={classes.rootForm}>
+      <form
+        autoComplete="off"
+        className={classes.rootForm}
+        onSubmit={onSubmitNewProduct}
+      >
         <Paper className={classes.searchFrom}>
           <TextField
             name="ibm"
@@ -96,12 +127,14 @@ export default function AddProductForm() {
             variant="outlined"
             autoFocus
             inputProps={{ size: 20 }}
-            value={'123456'}
             InputProps={{
               classes: {
                 input: classes.textInputIbm,
               },
             }}
+            type="text"
+            value={inputs.ibm.value}
+            onChange={onChange}
           />
           <Button variant="contained">cancel</Button>
           <Button variant="contained" color="primary">
@@ -111,6 +144,7 @@ export default function AddProductForm() {
             variant="contained"
             color="secondary"
             style={{ color: 'white' }}
+            type="onSubmit"
           >
             add new product
           </Button>
@@ -125,6 +159,9 @@ export default function AddProductForm() {
                 input: classes.textInput,
               },
             }}
+            type="text"
+            value={inputs.alias.value}
+            onChange={onChange}
           />
           <TextField
             name="totalCount"
