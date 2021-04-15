@@ -5,6 +5,21 @@ const CHANGE_IS_NEW_OR_OLD = 'CHANGE_IS_NEW_OR_OLD';
 export const acAddProduct = (formData) => async (dispatch) => {
   try {
     const res = await api.post('/api/products', { ...formData });
+    if (res.data === 'save') {
+      dispatch({
+        type: CHANGE_IS_NEW_OR_OLD,
+        payload: false,
+      });
+      dispatch({
+        type: 'OPEN_SNACK_BAR',
+        payload: 'Save',
+      });
+    } else {
+      dispatch({
+        type: CHANGE_IS_NEW_OR_OLD,
+        payload: true,
+      });
+    }
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -20,6 +35,7 @@ export const acAddProduct = (formData) => async (dispatch) => {
 export const acIsNewProduct = (formData) => async (dispatch) => {
   try {
     const res = await api.get(`/api/products/${formData}`);
+
     if (res.data === 'new') {
       dispatch({
         type: CHANGE_IS_NEW_OR_OLD,

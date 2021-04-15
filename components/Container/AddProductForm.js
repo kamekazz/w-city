@@ -49,15 +49,15 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.dark,
     letterSpacing: 3,
   },
-  importantForm: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    maxWidth: 700,
-    '& > *': {
-      width: '10rem',
-      margin: theme.spacing(1),
-    },
-  },
+  // importantForm: {
+  //   display: 'flex',
+  //   justifyContent: 'space-between',
+  //   maxWidth: 700,
+  //   '& > *': {
+  //     width: '10rem',
+  //     margin: theme.spacing(1),
+  //   },
+  // },
   sizeForm: {
     maxWidth: 700,
     display: 'flex',
@@ -85,7 +85,7 @@ export default function AddProductForm() {
   const isNewProduct = useSelector(
     (state) => state.containerAdmin.isNewProduct
   );
-  const [value, setValue] = React.useState('pl');
+
   const [disabledAddButton, setDisabledAddButton] = useState(true);
   const [inputs, setInputs] = useState({
     ibm: { value: '' },
@@ -94,10 +94,6 @@ export default function AddProductForm() {
   });
 
   const dispatch = useDispatch();
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
 
   function onChange(event) {
     const newValue = event.target.value;
@@ -207,9 +203,6 @@ export default function AddProductForm() {
             value={inputs.totalCount.value}
             onChange={onChange}
           />
-          <Button variant="contained" onClick={clearInput}>
-            cancel
-          </Button>
           <Button
             variant="contained"
             color="primary"
@@ -227,96 +220,15 @@ export default function AddProductForm() {
           >
             add new product
           </Button>
+          <Button
+            variant="contained"
+            onClick={clearInput}
+            disabled={!inputs.ibm.value}
+          >
+            cancel
+          </Button>
         </Paper>
-        <Paper className={classes.importantForm}>
-          <TextField
-            name="msUOM"
-            label="MS UOM"
-            variant="outlined"
-            InputProps={{
-              classes: {
-                input: classes.textInput,
-              },
-            }}
-          />
-        </Paper>
-        <Paper className={classes.sizeForm}>
-          <div className={classes.palletSize}>
-            <TextField
-              name="plUOM"
-              label="PL UOM"
-              variant="outlined"
-              InputProps={{
-                classes: {
-                  input: classes.textInput,
-                },
-              }}
-            />
-            <TextField
-              name="plTi"
-              label="PL Ti"
-              variant="outlined"
-              InputProps={{
-                classes: {
-                  input: classes.textInput,
-                },
-              }}
-            />
-            <TextField
-              name="plHi"
-              label="PL Hi"
-              variant="outlined"
-              InputProps={{
-                classes: {
-                  input: classes.textInput,
-                },
-              }}
-            />
-
-            <TextField
-              name="p1UOM"
-              label="P1 UOM"
-              variant="outlined"
-              InputProps={{
-                classes: {
-                  input: classes.textInput,
-                },
-              }}
-            />
-            <TextField
-              name="p1Ti"
-              label="P1 Ti"
-              variant="outlined"
-              InputProps={{
-                classes: {
-                  input: classes.textInput,
-                },
-              }}
-            />
-            <TextField
-              name="p1Hi"
-              label="P1 Hi"
-              variant="outlined"
-              InputProps={{
-                classes: {
-                  input: classes.textInput,
-                },
-              }}
-            />
-          </div>
-          <div className={classes.palletConfig}>
-            <FormLabel component="legend">Pallet Config</FormLabel>
-            <RadioGroup
-              aria-label="pallet-config"
-              name="palletStatus"
-              value={value}
-              onChange={handleChange}
-            >
-              <FormControlLabel value="pl" control={<Radio />} label="PL" />
-              <FormControlLabel value="p1" control={<Radio />} label="P1" />
-            </RadioGroup>
-          </div>
-        </Paper>
+        <UOMandSizeComponent />
       </form>
       <div className={classes.msContainer}>
         <BoxMeasure />
@@ -341,14 +253,97 @@ const BoxMeasure = () => {
 
 const UOMandSizeComponent = () => {
   const classes = useStyles();
+  const [value, setValue] = React.useState('pl');
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
   return (
-    <Paper component={'form'} className={classes.BoxMeasure}>
-      <TextField name="msLength" label="MS Length" variant="outlined" />
-      <TextField name="msWidth" label="MS Width" variant="outlined" />
-      <TextField name="msHeight" label="MS Height" variant="outlined" />
-      <Button variant="contained" color="primary">
-        save
-      </Button>
+    <Paper className={classes.sizeForm}>
+      <div className={classes.palletSize}>
+        <TextField
+          name="plUOM"
+          label="PL UOM"
+          variant="outlined"
+          InputProps={{
+            classes: {
+              input: classes.textInput,
+            },
+          }}
+        />
+        <TextField
+          name="plTi"
+          label="PL Ti"
+          variant="outlined"
+          InputProps={{
+            classes: {
+              input: classes.textInput,
+            },
+          }}
+        />
+        <TextField
+          name="plHi"
+          label="PL Hi"
+          variant="outlined"
+          InputProps={{
+            classes: {
+              input: classes.textInput,
+            },
+          }}
+        />
+
+        <TextField
+          name="p1UOM"
+          label="P1 UOM"
+          variant="outlined"
+          InputProps={{
+            classes: {
+              input: classes.textInput,
+            },
+          }}
+        />
+        <TextField
+          name="p1Ti"
+          label="P1 Ti"
+          variant="outlined"
+          InputProps={{
+            classes: {
+              input: classes.textInput,
+            },
+          }}
+        />
+        <TextField
+          name="p1Hi"
+          label="P1 Hi"
+          variant="outlined"
+          InputProps={{
+            classes: {
+              input: classes.textInput,
+            },
+          }}
+        />
+      </div>
+      <div className={classes.palletConfig}>
+        <FormLabel component="legend">Pallet Config</FormLabel>
+        <RadioGroup
+          aria-label="pallet-config"
+          name="palletStatus"
+          value={value}
+          onChange={handleChange}
+        >
+          <FormControlLabel value="pl" control={<Radio />} label="PL" />
+          <FormControlLabel value="p1" control={<Radio />} label="P1" />
+        </RadioGroup>
+        <TextField
+          name="msUOM"
+          label="MS UOM"
+          variant="outlined"
+          InputProps={{
+            classes: {
+              input: classes.textInput,
+            },
+          }}
+        />
+      </div>
     </Paper>
   );
 };

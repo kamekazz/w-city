@@ -18,6 +18,7 @@ router.get('/:ibm', async (req, res) => {
   }
 });
 //localhost:3000/api/product
+// add new Product
 router.post('/', async (req, res) => {
   const { ibm } = req.body;
   try {
@@ -33,6 +34,7 @@ router.post('/', async (req, res) => {
       status: 'loading',
     });
     await product.save();
+    res.status(200).send('save');
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);
