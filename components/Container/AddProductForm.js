@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container, makeStyles, Paper } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
@@ -6,8 +6,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import FormLabel from '@material-ui/core/FormLabel';
-import { acAddProduct } from '../../redux/containerAdmin';
-import { useDispatch } from 'react-redux';
+import { acAddProduct, acIsNewProduct } from '../../redux/containerAdmin';
+import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 700,
     display: 'flex',
     padding: '1rem',
+    flexWrap: 'wrap',
     '& > *': {
       width: '10rem',
       margin: theme.spacing(1),
@@ -81,12 +82,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddProductForm() {
   const classes = useStyles();
+  const isNewProduct = useSelector(
+    (state) => state.containerAdmin.isNewProduct
+  );
   const [value, setValue] = React.useState('pl');
+  const [disabledAddButton, setDisabledAddButton] = useState(true);
   const [inputs, setInputs] = useState({
     ibm: { value: '' },
     alias: { value: '' },
+    totalCount: { value: 0 },
   });
+
   const dispatch = useDispatch();
+
   const handleChange = (event) => {
     setValue(event.target.value);
   };
@@ -106,11 +114,48 @@ export default function AddProductForm() {
     });
   }
 
-  const onSubmitNewProduct = (e) => {
+  useEffect(() => {
+    if (inputs.ibm.value.length === 6) {
+      dispatch(acIsNewProduct(inputs.ibm.value));
+    } else {
+      dispatch({
+        type: 'CHANGE_IS_NEW_OR_OLD',
+        payload: false,
+      });
+    }
+  }, [inputs]);
+
+  useEffect(() => {
+    if (inputs.ibm.value.length === 6 && !isNewProduct) {
+      setDisabledAddButton(false);
+    } else {
+      setDisabledAddButton(true);
+    }
+  }, [inputs, isNewProduct]);
+
+  const submitNewProduct = (e) => {
     e.preventDefault();
     let ibm = inputs.ibm.value;
     let alias = inputs.alias.value;
     dispatch(acAddProduct({ ibm, alias }));
+  };
+
+  const addLoad = () => {
+    console.log(
+      `add load`,
+      inputs.ibm.value,
+      'total:',
+      inputs.totalCount?.value
+    );
+    clearInput();
+  };
+
+  const clearInput = () => {
+    setInputs({
+      ibm: { value: '' },
+      alias: { value: '' },
+      totalCount: { value: 0 },
+    });
   };
 
   return (
@@ -118,7 +163,7 @@ export default function AddProductForm() {
       <form
         autoComplete="off"
         className={classes.rootForm}
-        onSubmit={onSubmitNewProduct}
+        // onSubmit={onSubmitNewProduct}
       >
         <Paper className={classes.searchFrom}>
           <TextField
@@ -132,24 +177,10 @@ export default function AddProductForm() {
                 input: classes.textInputIbm,
               },
             }}
-            type="text"
+            type="number"
             value={inputs.ibm.value}
             onChange={onChange}
           />
-          <Button variant="contained">cancel</Button>
-          <Button variant="contained" color="primary">
-            add load
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            style={{ color: 'white' }}
-            type="onSubmit"
-          >
-            add new product
-          </Button>
-        </Paper>
-        <Paper className={classes.importantForm}>
           <TextField
             name="alias"
             label="Alias"
@@ -172,7 +203,32 @@ export default function AddProductForm() {
                 input: classes.textInput,
               },
             }}
+            type="number"
+            value={inputs.totalCount.value}
+            onChange={onChange}
           />
+          <Button variant="contained" onClick={clearInput}>
+            cancel
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={disabledAddButton}
+            onClick={addLoad}
+          >
+            add load
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ color: 'white' }}
+            disabled={!isNewProduct}
+            onClick={submitNewProduct}
+          >
+            add new product
+          </Button>
+        </Paper>
+        <Paper className={classes.importantForm}>
           <TextField
             name="msUOM"
             label="MS UOM"
@@ -270,6 +326,20 @@ export default function AddProductForm() {
 }
 
 const BoxMeasure = () => {
+  const classes = useStyles();
+  return (
+    <Paper component={'form'} className={classes.BoxMeasure}>
+      <TextField name="msLength" label="MS Length" variant="outlined" />
+      <TextField name="msWidth" label="MS Width" variant="outlined" />
+      <TextField name="msHeight" label="MS Height" variant="outlined" />
+      <Button variant="contained" color="primary">
+        save
+      </Button>
+    </Paper>
+  );
+};
+
+const UOMandSizeComponent = () => {
   const classes = useStyles();
   return (
     <Paper component={'form'} className={classes.BoxMeasure}>

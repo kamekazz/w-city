@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ProductSchema = new Schema(
   {
     ibm: { type: String, required: true, unique: true, trim: true, max: 6 },
-    alias: { type: String, required: true, unique: true, trim: true },
+    alias: { type: String, trim: true },
     activeCount: { type: Number },
     totalCount: { type: Number },
 

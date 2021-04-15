@@ -3,15 +3,15 @@ const router = express.Router();
 const ProductModel = require('../models/ProductModel');
 const { default: uploadPic } = require('../utils/uploadPicToCloudinary');
 
-router.get('/:product', async (req, res) => {
+router.get('/:ibm', async (req, res) => {
   const { ibm } = req.params;
 
   try {
-    const product = await UserModel.findOne({ ibm });
+    const product = await ProductModel.findOne({ ibm });
 
-    if (product) return res.status(401).send('product already taken');
+    if (product) return res.status(200).send('old');
 
-    return res.status(200).send('Available');
+    return res.status(200).send('new');
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);
@@ -19,9 +19,7 @@ router.get('/:product', async (req, res) => {
 });
 //localhost:3000/api/product
 router.post('/', async (req, res) => {
-  const { ibm, alias } = req.body;
-  const lowerCaseAlias = alias.toLowerCase();
-
+  const { ibm } = req.body;
   try {
     const existingProduct = await ProductModel.findOne({ ibm });
     if (existingProduct) {
@@ -32,7 +30,6 @@ router.post('/', async (req, res) => {
     const product = new ProductModel({
       activeCount: 0,
       ...req.body,
-      alias: lowerCaseAlias,
       status: 'loading',
     });
     await product.save();
