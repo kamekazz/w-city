@@ -101,7 +101,12 @@ export default function AddProductForm() {
             label="IBM"
             variant="outlined"
             autoFocus
-            inputProps={{ size: 20 }}
+            onInput={(e) => {
+              e.target.value = Math.max(0, parseInt(e.target.value))
+                .toString()
+                .slice(0, 6);
+            }}
+            min={0}
             type="number"
             value={inputs.ibm.value}
             onChange={onChange}
