@@ -3,6 +3,8 @@ const router = express.Router();
 const ProductModel = require('../models/ProductModel');
 const { default: uploadPic } = require('../utils/uploadPicToCloudinary');
 
+//localhost:3000/api/product
+// get  Product info
 router.get('/:ibm', async (req, res) => {
   const { ibm } = req.params;
 
@@ -57,6 +59,25 @@ router.post('/get_pallet_config', async (req, res) => {
     // Please save all the information on a random object.
     let webInfo = {}; //<=
     // After you get me the information, I'll save it in my database at my liking.
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(`Server error`);
+  }
+});
+
+router.post('/add_pallet_load', async (req, res) => {
+  const { ibm, totalCount, alias } = req.body;
+  try {
+    const existingProduct = await ProductModel.findOne({ ibm });
+    if (!existingProduct) {
+      return res
+        .status(200)
+        .json({ message: `Don't Product exist registered` });
+    }
+    existingProduct.totalCount = totalCount;
+    existingProduct.alias = alias;
+    await existingProduct.save();
+    res.status(200).send('add pallet load');
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);
