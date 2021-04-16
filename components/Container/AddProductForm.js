@@ -167,10 +167,10 @@ export default function AddProductForm() {
             cancel
           </Button>
         </Paper>
-        <UOMandSizeComponent />
+        {!disabledAddButton && <UOMandSizeComponent />}
       </div>
       <div className={classes.cubeDiv}>
-        <BoxMeasure />
+        {!disabledAddButton && <BoxMeasure />}
       </div>
     </Container>
   );
