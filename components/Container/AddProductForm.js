@@ -12,71 +12,17 @@ import { useDispatch, useSelector } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    flexDirection: 'row',
   },
   rootForm: {
-    '& > *': {
-      margin: theme.spacing(1),
-    },
+    width: '50%',
+    paddingRight: 8,
   },
   searchFrom: {
-    maxWidth: 700,
-    display: 'flex',
+    display: 'grid',
     padding: '1rem',
-    flexWrap: 'wrap',
-    '& > *': {
-      width: '10rem',
-      margin: theme.spacing(1),
-    },
-  },
-  msContainer: {
-    '& > *': {
-      margin: theme.spacing(1),
-      padding: theme.spacing(1),
-      display: 'flex',
-    },
-  },
-  BoxMeasure: {
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-  textInput: {
-    fontSize: 30,
-  },
-  textInputIbm: {
-    fontSize: 30,
-    color: theme.palette.secondary.dark,
-    letterSpacing: 3,
-  },
-  // importantForm: {
-  //   display: 'flex',
-  //   justifyContent: 'space-between',
-  //   maxWidth: 700,
-  //   '& > *': {
-  //     width: '10rem',
-  //     margin: theme.spacing(1),
-  //   },
-  // },
-  sizeForm: {
-    maxWidth: 700,
-    display: 'flex',
-    // flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  palletSize: {
-    '& > *': {
-      width: '10rem',
-      margin: theme.spacing(1),
-    },
-  },
-  palletConfig: {
-    minWidth: '10rem',
-    padding: '1rem',
-  },
-  statusForm: {
-    padding: '1rem',
-    maxWidth: 200,
+    gridTemplateColumns: '1fr 1fr 1fr',
+    gridTemplateRows: '1fr 1fr',
+    gap: '1rem',
   },
 }));
 
@@ -85,16 +31,13 @@ export default function AddProductForm() {
   const isNewProduct = useSelector(
     (state) => state.containerAdmin.isNewProduct
   );
-
   const [disabledAddButton, setDisabledAddButton] = useState(true);
   const [inputs, setInputs] = useState({
     ibm: { value: '' },
     alias: { value: '' },
     totalCount: { value: 0 },
   });
-
   const dispatch = useDispatch();
-
   function onChange(event) {
     const newValue = event.target.value;
     const inputName = event.target.name;
@@ -109,7 +52,6 @@ export default function AddProductForm() {
       };
     });
   }
-
   useEffect(() => {
     if (inputs.ibm.value.length === 6) {
       dispatch(acIsNewProduct(inputs.ibm.value));
@@ -120,7 +62,6 @@ export default function AddProductForm() {
       });
     }
   }, [inputs]);
-
   useEffect(() => {
     if (inputs.ibm.value.length === 6 && !isNewProduct) {
       setDisabledAddButton(false);
@@ -128,14 +69,12 @@ export default function AddProductForm() {
       setDisabledAddButton(true);
     }
   }, [inputs, isNewProduct]);
-
   const submitNewProduct = (e) => {
     e.preventDefault();
     let ibm = inputs.ibm.value;
     let alias = inputs.alias.value;
     dispatch(acAddProduct({ ibm, alias }));
   };
-
   const addLoad = () => {
     console.log(
       `add load`,
@@ -145,7 +84,6 @@ export default function AddProductForm() {
     );
     clearInput();
   };
-
   const clearInput = () => {
     setInputs({
       ibm: { value: '' },
@@ -156,11 +94,7 @@ export default function AddProductForm() {
 
   return (
     <Container className={classes.root}>
-      <form
-        autoComplete="off"
-        className={classes.rootForm}
-        // onSubmit={onSubmitNewProduct}
-      >
+      <div className={classes.rootForm}>
         <Paper className={classes.searchFrom}>
           <TextField
             name="ibm"
@@ -168,11 +102,6 @@ export default function AddProductForm() {
             variant="outlined"
             autoFocus
             inputProps={{ size: 20 }}
-            InputProps={{
-              classes: {
-                input: classes.textInputIbm,
-              },
-            }}
             type="number"
             value={inputs.ibm.value}
             onChange={onChange}
@@ -228,9 +157,8 @@ export default function AddProductForm() {
             cancel
           </Button>
         </Paper>
-        <UOMandSizeComponent />
-      </form>
-      <div className={classes.msContainer}>
+      </div>
+      <div>
         <BoxMeasure />
       </div>
     </Container>
