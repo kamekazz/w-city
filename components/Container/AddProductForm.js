@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
   rootForm: {
     width: '50%',
-    paddingRight: 8,
+    paddingRight: 4,
   },
   searchFrom: {
     display: 'grid',
@@ -24,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateRows: '1fr 1fr',
     gap: '1rem',
     marginBottom: '1rem',
+  },
+  cubeDiv: {
+    width: '50%',
+    paddingLeft: 4,
   },
 }));
 
@@ -165,21 +169,32 @@ export default function AddProductForm() {
         </Paper>
         <UOMandSizeComponent />
       </div>
-      <div>
+      <div className={classes.cubeDiv}>
         <BoxMeasure />
       </div>
     </Container>
   );
 }
-
+const useStylesBoxMeasure = makeStyles((theme) => ({
+  from: {
+    display: 'grid',
+    padding: '1rem',
+    gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+    gridTemplateRows: '1fr',
+    gap: '1rem',
+  },
+}));
 const BoxMeasure = () => {
-  const classes = useStyles();
+  const classes = useStylesBoxMeasure();
   return (
-    <Paper component={'form'} className={classes.BoxMeasure}>
+    <Paper component={'form'} className={classes.from}>
       <TextField name="msLength" label="MS Length" variant="outlined" />
       <TextField name="msWidth" label="MS Width" variant="outlined" />
       <TextField name="msHeight" label="MS Height" variant="outlined" />
       <Button variant="contained" color="primary">
+        check
+      </Button>
+      <Button variant="contained" color="secondary">
         save
       </Button>
     </Paper>
@@ -193,6 +208,9 @@ const useStylesUOM = makeStyles((theme) => ({
     gridTemplateColumns: '1fr 1fr 1fr',
     gridTemplateRows: '1fr 1fr 2fr',
     gap: '1rem',
+  },
+  itemPalletConfig: {
+    placeSelf: 'center',
   },
 }));
 
@@ -212,7 +230,7 @@ const UOMandSizeComponent = () => {
       <TextField name="p1Ti" label="P1 Ti" variant="outlined" />
       <TextField name="p1Hi" label="P1 Hi" variant="outlined" />
       <TextField name="msUOM" label="MS UOM" variant="outlined" />
-      <div className={classes.palletConfig}>
+      <div className={classes.itemPalletConfig}>
         <FormLabel component="legend">Pallet Config</FormLabel>
         <RadioGroup
           aria-label="pallet-config"
@@ -224,7 +242,9 @@ const UOMandSizeComponent = () => {
           <FormControlLabel value="p1" control={<Radio />} label="P1" />
         </RadioGroup>
       </div>
-      <Button>save</Button>
+      <Button variant="contained" color="secondary">
+        save
+      </Button>
     </Paper>
   );
 };
