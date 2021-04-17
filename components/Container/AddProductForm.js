@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Container, makeStyles, Paper } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddProductForm() {
   const classes = useStyles();
+  const inputRef = useRef();
   const { isNewProduct, stationProduct } = useSelector(
     (state) => state.containerAdmin
   );
@@ -110,6 +111,7 @@ export default function AddProductForm() {
     let ibm = inputs.ibm.value;
     let alias = inputs.alias.value;
     dispatch(acAddProduct({ ibm, alias }));
+    inputRef.current.focus();
   };
   const addLoad = () => {
     let body = {};
@@ -125,6 +127,7 @@ export default function AddProductForm() {
       alias: { value: '' },
       totalCount: { value: 0 },
     });
+    inputRef.current.focus();
   };
 
   return (
@@ -135,6 +138,7 @@ export default function AddProductForm() {
             name="ibm"
             label="IBM"
             variant="outlined"
+            inputRef={inputRef}
             autoFocus
             onInput={(e) => {
               e.target.value = Math.max(0, parseInt(e.target.value))
