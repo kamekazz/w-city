@@ -88,6 +88,35 @@ export const acAddProductLoad = (formData) => async (dispatch) => {
   }
 };
 
+export const acSaveUOM = (formData) => async (dispatch) => {
+  try {
+    const res = await api.post('/api/products/update_product', {
+      ...formData,
+    });
+    console.log('start');
+    if (res.data.message === 'Update Product') {
+      dispatch({
+        type: 'OPEN_SNACK_BAR',
+        payload: 'Update Product',
+      });
+    } else {
+      dispatch({
+        type: 'OPEN_SNACK_BAR',
+        payload: 'Update Product felid',
+      });
+    }
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      //   errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
+    dispatch({
+      type: 'OPEN_SNACK_BAR',
+      payload: 'error',
+    });
+  }
+};
+
 const initialState = {
   isNewProduct: false,
 };

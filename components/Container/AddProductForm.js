@@ -10,6 +10,7 @@ import {
   acAddProduct,
   acAddProductLoad,
   acIsNewProduct,
+  acSaveUOM,
 } from '../../redux/containerAdmin';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -189,15 +190,48 @@ const useStylesBoxMeasure = makeStyles((theme) => ({
 }));
 const BoxMeasure = () => {
   const classes = useStylesBoxMeasure();
+  const [inputs, setInputs] = useState({});
+  const dispatch = useDispatch();
+  function onChange(event) {
+    const newValue = event.target.value;
+    const inputName = event.target.name;
+    setInputs((prevState) => {
+      return {
+        ...prevState,
+        [inputName]: newValue,
+      };
+    });
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(acSaveUOM(inputs));
+  };
+
   return (
-    <Paper component={'form'} className={classes.from}>
-      <TextField name="msLength" label="MS Length" variant="outlined" />
-      <TextField name="msWidth" label="MS Width" variant="outlined" />
-      <TextField name="msHeight" label="MS Height" variant="outlined" />
+    <Paper component={'form'} className={classes.from} onSubmit={onSubmit}>
+      <TextField
+        name="msLength"
+        label="MS Length"
+        variant="outlined"
+        onChange={onChange}
+      />
+      <TextField
+        name="msWidth"
+        label="MS Width"
+        variant="outlined"
+        onChange={onChange}
+      />
+      <TextField
+        name="msHeight"
+        label="MS Height"
+        variant="outlined"
+        onChange={onChange}
+      />
       <Button variant="contained" color="primary">
         check
       </Button>
-      <Button variant="contained" color="secondary">
+      <Button variant="contained" color="secondary" type="submit">
         save
       </Button>
     </Paper>
