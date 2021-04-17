@@ -6,7 +6,11 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import FormLabel from '@material-ui/core/FormLabel';
-import { acAddProduct, acIsNewProduct } from '../../redux/containerAdmin';
+import {
+  acAddProduct,
+  acAddProductLoad,
+  acIsNewProduct,
+} from '../../redux/containerAdmin';
 import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -81,12 +85,11 @@ export default function AddProductForm() {
     dispatch(acAddProduct({ ibm, alias }));
   };
   const addLoad = () => {
-    console.log(
-      `add load`,
-      inputs.ibm.value,
-      'total:',
-      inputs.totalCount?.value
-    );
+    let body = {};
+    body.ibm = inputs.ibm.value;
+    body.alias = inputs.alias.value;
+    body.totalCount = inputs.totalCount.value;
+    dispatch(acAddProductLoad(body));
     clearInput();
   };
   const clearInput = () => {

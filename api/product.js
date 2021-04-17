@@ -77,7 +77,7 @@ router.post('/add_pallet_load', async (req, res) => {
     existingProduct.totalCount = totalCount;
     existingProduct.alias = alias;
     await existingProduct.save();
-    res.status(200).send('add pallet load');
+    res.status(200).send('loaded');
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);
