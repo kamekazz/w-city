@@ -1,14 +1,15 @@
 import api from '../utils/api';
 const ADD_NEW_PRODUCT = 'ADD_NEW_PRODUCT';
 const CHANGE_IS_NEW_OR_OLD = 'CHANGE_IS_NEW_OR_OLD';
+const PRODUCT_IS_NEW = 'PRODUCT_IS_NEW';
+const PRODUCT_IS_OLD = 'PRODUCT_IS_OLD';
 
 export const acAddProduct = (formData) => async (dispatch) => {
   try {
     const res = await api.post('/api/products', { ...formData });
     if (res.data === 'save') {
       dispatch({
-        type: CHANGE_IS_NEW_OR_OLD,
-        payload: false,
+        type: PRODUCT_IS_OLD,
       });
       dispatch({
         type: 'OPEN_SNACK_BAR',
@@ -16,8 +17,7 @@ export const acAddProduct = (formData) => async (dispatch) => {
       });
     } else {
       dispatch({
-        type: CHANGE_IS_NEW_OR_OLD,
-        payload: true,
+        type: PRODUCT_IS_NEW,
       });
     }
   } catch (err) {
@@ -38,13 +38,11 @@ export const acIsNewProduct = (formData) => async (dispatch) => {
 
     if (res.data === 'new') {
       dispatch({
-        type: CHANGE_IS_NEW_OR_OLD,
-        payload: true,
+        type: PRODUCT_IS_NEW,
       });
     } else {
       dispatch({
-        type: CHANGE_IS_NEW_OR_OLD,
-        payload: false,
+        type: PRODUCT_IS_OLD,
       });
     }
   } catch (err) {
@@ -93,7 +91,6 @@ export const acSaveUOM = (formData) => async (dispatch) => {
     const res = await api.post('/api/products/update_product', {
       ...formData,
     });
-    console.log('start');
     if (res.data.message === 'Update Product') {
       dispatch({
         type: 'OPEN_SNACK_BAR',
@@ -132,6 +129,16 @@ function containerAdminReducer(state = initialState, action) {
       return {
         ...state,
         isNewProduct: payload,
+      };
+    case PRODUCT_IS_NEW:
+      return {
+        ...state,
+        isNewProduct: true,
+      };
+    case PRODUCT_IS_OLD:
+      return {
+        ...state,
+        isNewProduct: false,
       };
     default:
       return state;

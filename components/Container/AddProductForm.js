@@ -67,8 +67,7 @@ export default function AddProductForm() {
       dispatch(acIsNewProduct(inputs.ibm.value));
     } else {
       dispatch({
-        type: 'CHANGE_IS_NEW_OR_OLD',
-        payload: false,
+        type: 'PRODUCT_IS_OLD',
       });
     }
   }, [inputs]);

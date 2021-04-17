@@ -85,13 +85,9 @@ router.post('/add_pallet_load', async (req, res) => {
 });
 
 router.post('/update_product', async (req, res) => {
-  // const { ibm } = req.body;
-  console.log(`req.body`, req.body);
+  const { ibm } = req.body;
   try {
-    updatedProduct = await ProductModel.updateOne(
-      { ibm: '123456' },
-      { ...req.body }
-    );
+    updatedProduct = await ProductModel.updateOne({ ibm }, { ...req.body });
     res.status(200).json({ message: 'Update Product', updatedProduct });
   } catch (error) {
     console.error(error);
