@@ -38,7 +38,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddProductForm() {
   const classes = useStyles();
-  const { isNewProduct } = useSelector((state) => state.containerAdmin);
+  const { isNewProduct, stationProduct } = useSelector(
+    (state) => state.containerAdmin
+  );
   const [disabledAddButton, setDisabledAddButton] = useState(true);
   const [inputs, setInputs] = useState({
     ibm: { value: '' },
@@ -77,6 +79,31 @@ export default function AddProductForm() {
     }
   }, [inputs, isNewProduct]);
 
+  useEffect(() => {
+    if (stationProduct?.alias) {
+      setInputs((prevState) => {
+        return {
+          ...prevState,
+          ['alias']: {
+            ...prevState['alias'],
+            value: stationProduct.alias,
+            dirty: true,
+          },
+        };
+      });
+    } else {
+      setInputs((prevState) => {
+        return {
+          ...prevState,
+          ['alias']: {
+            ...prevState['alias'],
+            value: '',
+            dirty: true,
+          },
+        };
+      });
+    }
+  }, [stationProduct]);
   const submitNewProduct = (e) => {
     e.preventDefault();
     let ibm = inputs.ibm.value;
