@@ -87,10 +87,15 @@ export const acAddProductLoad = (formData) => async (dispatch) => {
   }
 };
 
-export const acSaveUOM = (formData) => async (dispatch) => {
+export const acSaveUOM = (formData) => async (dispatch, getState) => {
+  let ibm = getState().containerAdmin.stationProduct.ibm;
+  let formDatePlusIBM = {
+    ...formData,
+    ibm,
+  };
   try {
     const res = await api.post('/api/products/update_product', {
-      ...formData,
+      ...formDatePlusIBM,
     });
     if (res.data.message === 'Update Product') {
       dispatch({

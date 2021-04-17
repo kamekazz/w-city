@@ -92,6 +92,17 @@ export default function AddProductForm() {
           },
         };
       });
+    } else {
+      setInputs((prevState) => {
+        return {
+          ...prevState,
+          ['alias']: {
+            ...prevState['alias'],
+            value: '',
+            dirty: true,
+          },
+        };
+      });
     }
   }, [stationProduct]);
   const submitNewProduct = (e) => {
@@ -186,14 +197,123 @@ export default function AddProductForm() {
             cancel
           </Button>
         </Paper>
-        {!disabledAddButton && <UOMandSizeComponent />}
+        {stationProduct?.ibm && (
+          <UOMandSizeComponent key={stationProduct?.ibm} />
+        )}
       </div>
       <div className={classes.cubeDiv}>
-        {!disabledAddButton && <BoxMeasure />}
+        {stationProduct?.ibm && <BoxMeasure key={stationProduct?.ibm} />}
       </div>
     </Container>
   );
 }
+
+const useStylesUOM = makeStyles((theme) => ({
+  from: {
+    display: 'grid',
+    padding: '1rem',
+    gridTemplateColumns: '1fr 1fr 1fr',
+    gridTemplateRows: '1fr 1fr 2fr',
+    gap: '1rem',
+  },
+  itemPalletConfig: {
+    placeSelf: 'center',
+  },
+}));
+
+const UOMandSizeComponent = () => {
+  const classes = useStylesUOM();
+  const { stationProduct } = useSelector((state) => state.containerAdmin);
+  const [inputs, setInputs] = useState(stationProduct);
+  const dispatch = useDispatch();
+
+  function handleChange(event) {
+    const newValue = event.target.value;
+    const inputName = event.target.name;
+    setInputs((prevState) => {
+      return {
+        ...prevState,
+        [inputName]: newValue,
+      };
+    });
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(acSaveUOM(inputs));
+  };
+
+  return (
+    <Paper className={classes.from} component="form" onSubmit={onSubmit}>
+      <TextField
+        name="plUOM"
+        label="PL UOM"
+        variant="outlined"
+        onChange={handleChange}
+        value={inputs?.plUOM}
+      />
+      <TextField
+        name="plTi"
+        label="PL Ti"
+        variant="outlined"
+        onChange={handleChange}
+        value={inputs?.plTi}
+      />
+      <TextField
+        name="plHi"
+        label="PL Hi"
+        variant="outlined"
+        onChange={handleChange}
+        value={inputs?.plHi}
+      />
+
+      <TextField
+        name="p1UOM"
+        label="P1 UOM"
+        variant="outlined"
+        onChange={handleChange}
+        value={inputs?.p1UOM}
+      />
+      <TextField
+        name="p1Ti"
+        label="P1 Ti"
+        variant="outlined"
+        onChange={handleChange}
+        value={inputs?.p1Ti}
+      />
+      <TextField
+        name="p1Hi"
+        label="P1 Hi"
+        variant="outlined"
+        onChange={handleChange}
+        value={inputs?.p1Hi}
+      />
+      <TextField
+        name="msUOM"
+        label="MS UOM"
+        variant="outlined"
+        onChange={handleChange}
+        value={inputs?.msUOM}
+      />
+      <div className={classes.itemPalletConfig}>
+        <FormLabel component="legend">Pallet Config</FormLabel>
+        <RadioGroup
+          aria-label="pallet-config"
+          name="palletStatus"
+          value={inputs.palletStatus}
+          onChange={handleChange}
+        >
+          <FormControlLabel value="pl" control={<Radio />} label="PL" />
+          <FormControlLabel value="p1" control={<Radio />} label="P1" />
+        </RadioGroup>
+      </div>
+      <Button variant="contained" color="secondary" type="submit">
+        save
+      </Button>
+    </Paper>
+  );
+};
+
 const useStylesBoxMeasure = makeStyles((theme) => ({
   from: {
     display: 'grid',
@@ -247,54 +367,6 @@ const BoxMeasure = () => {
         check
       </Button>
       <Button variant="contained" color="secondary" type="submit">
-        save
-      </Button>
-    </Paper>
-  );
-};
-
-const useStylesUOM = makeStyles((theme) => ({
-  from: {
-    display: 'grid',
-    padding: '1rem',
-    gridTemplateColumns: '1fr 1fr 1fr',
-    gridTemplateRows: '1fr 1fr 2fr',
-    gap: '1rem',
-  },
-  itemPalletConfig: {
-    placeSelf: 'center',
-  },
-}));
-
-const UOMandSizeComponent = () => {
-  const classes = useStylesUOM();
-  const [value, setValue] = React.useState('pl');
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
-  return (
-    <Paper className={classes.from}>
-      <TextField name="plUOM" label="PL UOM" variant="outlined" />
-      <TextField name="plTi" label="PL Ti" variant="outlined" />
-      <TextField name="plHi" label="PL Hi" variant="outlined" />
-
-      <TextField name="p1UOM" label="P1 UOM" variant="outlined" />
-      <TextField name="p1Ti" label="P1 Ti" variant="outlined" />
-      <TextField name="p1Hi" label="P1 Hi" variant="outlined" />
-      <TextField name="msUOM" label="MS UOM" variant="outlined" />
-      <div className={classes.itemPalletConfig}>
-        <FormLabel component="legend">Pallet Config</FormLabel>
-        <RadioGroup
-          aria-label="pallet-config"
-          name="palletStatus"
-          value={value}
-          onChange={handleChange}
-        >
-          <FormControlLabel value="pl" control={<Radio />} label="PL" />
-          <FormControlLabel value="p1" control={<Radio />} label="P1" />
-        </RadioGroup>
-      </div>
-      <Button variant="contained" color="secondary">
         save
       </Button>
     </Paper>
