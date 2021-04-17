@@ -70,7 +70,8 @@ export default function AddProductForm() {
         type: 'PRODUCT_IS_OLD',
       });
     }
-  }, [inputs]);
+  }, [inputs.ibm.value]);
+
   useEffect(() => {
     if (inputs.ibm.value.length === 6 && !isNewProduct) {
       setDisabledAddButton(false);
@@ -87,17 +88,6 @@ export default function AddProductForm() {
           ['alias']: {
             ...prevState['alias'],
             value: stationProduct.alias,
-            dirty: true,
-          },
-        };
-      });
-    } else {
-      setInputs((prevState) => {
-        return {
-          ...prevState,
-          ['alias']: {
-            ...prevState['alias'],
-            value: '',
             dirty: true,
           },
         };
