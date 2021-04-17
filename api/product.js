@@ -11,9 +11,9 @@ router.get('/:ibm', async (req, res) => {
   try {
     const product = await ProductModel.findOne({ ibm });
 
-    if (product) return res.status(200).send('old');
+    if (product) return res.status(200).json({ message: 'old', product });
 
-    return res.status(200).send('new');
+    return res.status(200).json({ message: 'new' });
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);

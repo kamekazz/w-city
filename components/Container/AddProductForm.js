@@ -38,9 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddProductForm() {
   const classes = useStyles();
-  const isNewProduct = useSelector(
-    (state) => state.containerAdmin.isNewProduct
-  );
+  const { isNewProduct } = useSelector((state) => state.containerAdmin);
   const [disabledAddButton, setDisabledAddButton] = useState(true);
   const [inputs, setInputs] = useState({
     ibm: { value: '' },
@@ -78,6 +76,7 @@ export default function AddProductForm() {
       setDisabledAddButton(true);
     }
   }, [inputs, isNewProduct]);
+
   const submitNewProduct = (e) => {
     e.preventDefault();
     let ibm = inputs.ibm.value;

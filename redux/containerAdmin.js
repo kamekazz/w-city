@@ -36,13 +36,14 @@ export const acIsNewProduct = (formData) => async (dispatch) => {
   try {
     const res = await api.get(`/api/products/${formData}`);
 
-    if (res.data === 'new') {
+    if (res.data.message === 'new') {
       dispatch({
         type: PRODUCT_IS_NEW,
       });
     } else {
       dispatch({
         type: PRODUCT_IS_OLD,
+        payload: res.data.product,
       });
     }
   } catch (err) {
@@ -116,6 +117,7 @@ export const acSaveUOM = (formData) => async (dispatch) => {
 
 const initialState = {
   isNewProduct: false,
+  stationProduct: {},
 };
 
 function containerAdminReducer(state = initialState, action) {
@@ -134,11 +136,13 @@ function containerAdminReducer(state = initialState, action) {
       return {
         ...state,
         isNewProduct: true,
+        stationProduct: {},
       };
     case PRODUCT_IS_OLD:
       return {
         ...state,
         isNewProduct: false,
+        stationProduct: payload,
       };
     default:
       return state;
