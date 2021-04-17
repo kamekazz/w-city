@@ -325,7 +325,8 @@ const useStylesBoxMeasure = makeStyles((theme) => ({
 }));
 const BoxMeasure = () => {
   const classes = useStylesBoxMeasure();
-  const [inputs, setInputs] = useState({});
+  const { stationProduct } = useSelector((state) => state.containerAdmin);
+  const [inputs, setInputs] = useState(stationProduct);
   const dispatch = useDispatch();
   function onChange(event) {
     const newValue = event.target.value;
@@ -350,18 +351,21 @@ const BoxMeasure = () => {
         label="MS Length"
         variant="outlined"
         onChange={onChange}
+        value={inputs.msLength}
       />
       <TextField
         name="msWidth"
         label="MS Width"
         variant="outlined"
         onChange={onChange}
+        value={inputs.msWidth}
       />
       <TextField
         name="msHeight"
         label="MS Height"
         variant="outlined"
         onChange={onChange}
+        value={inputs.msHeight}
       />
       <Button variant="contained" color="primary">
         check
