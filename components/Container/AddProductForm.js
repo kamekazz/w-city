@@ -300,6 +300,20 @@ const UOMandSizeComponent = () => {
         onChange={handleChange}
         value={inputs?.msUOM}
       />
+      <TextField
+        name="plMaxHeight"
+        label="Max PL Height"
+        variant="outlined"
+        onChange={handleChange}
+        value={inputs?.plMaxHeight}
+      />
+      <TextField
+        name="p1MaxHeight"
+        label="Max P1 Height"
+        variant="outlined"
+        onChange={handleChange}
+        value={inputs?.p1MaxHeight}
+      />
       <div className={classes.itemPalletConfig}>
         <FormLabel component="legend">Pallet Config</FormLabel>
         <RadioGroup
@@ -318,7 +332,7 @@ const UOMandSizeComponent = () => {
     </Paper>
   );
 };
-
+////BoxMeasure
 const useStylesBoxMeasure = makeStyles((theme) => ({
   from: {
     display: 'grid',
@@ -328,6 +342,7 @@ const useStylesBoxMeasure = makeStyles((theme) => ({
     gap: '1rem',
   },
 }));
+
 const BoxMeasure = () => {
   const classes = useStylesBoxMeasure();
   const { stationProduct } = useSelector((state) => state.containerAdmin);
@@ -347,6 +362,7 @@ const BoxMeasure = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(acGetPalletConfig(inputs));
+    console.log(inputs);
   };
 
   return (

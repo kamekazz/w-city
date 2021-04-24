@@ -45,10 +45,11 @@ router.post('/', async (req, res) => {
 //localhost:3000/api/product/get_pallet_config
 // Make sure is in inches not millimeters and pallet to 40X48  on onpallet.com.
 router.post('/get_pallet_config', async (req, res) => {
-  const { ibm, msLength, msWidth, msHeight, loadingHeight } = req.body;
+  const { ibm, msLength, msWidth, msHeight } = req.body;
+
+  console.log(`palletLayOut`, req.body);
   try {
     palletLayOut = await scraper('sren.png', msWidth, msLength, msHeight, 51);
-    console.log(`palletLayOut`, palletLayOut);
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);
