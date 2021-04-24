@@ -203,11 +203,11 @@ export default function AddProductForm() {
           </Button>
         </Paper>
         {stationProduct?.ibm && (
-          <UOMandSizeComponent key={stationProduct?.ibm} />
+          <UOMandSizeComponent key={stationProduct?.updatedAt} />
         )}
       </div>
       <div className={classes.cubeDiv}>
-        {stationProduct?.ibm && <BoxMeasure key={stationProduct?.ibm} />}
+        {stationProduct?.ibm && <BoxMeasure key={stationProduct?.updatedAt} />}
       </div>
     </Container>
   );

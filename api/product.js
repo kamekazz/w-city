@@ -43,20 +43,19 @@ router.post('/', async (req, res) => {
   }
 });
 //localhost:3000/api/product/get_pallet_config
-// Make sure is in inches not millimeters and pallet to 40X48  on onpallet.com.
 router.post('/get_pallet_config', async (req, res) => {
   const { ibm, msLength, msWidth, msHeight } = req.body;
-
   try {
     product = await ProductModel.findOne({ ibm });
-    console.log(product);
     palletLayOut = await scraper(
       msWidth,
       msLength,
       msHeight,
       getActiveMaxHeight(product)
     );
-    console.log(palletLayOut['n layers:']);
+    product.msLength = msLength;
+    product.msWidth = msWidth;
+    product.msHeight = msHeight;
     if (product.palletStatus === 'pl') {
       product.palletImagesPl.push(palletLayOut.secure_url);
       product.plTi = palletLayOut['n packages:'] / palletLayOut['n layers:'];
@@ -66,8 +65,8 @@ router.post('/get_pallet_config', async (req, res) => {
       product.p1Ti = palletLayOut['n packages:'] / palletLayOut['n layers:'];
       product.p1Hi = palletLayOut['n layers:'];
     }
-    product.save();
-    res.status(200).json({ message: 'Update Product', product });
+    await product.save();
+    res.status(200).json({ message: 'Pallet Config Completed', product });
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);

@@ -125,15 +125,19 @@ export const acGetPalletConfig = (formData) => async (dispatch) => {
     const res = await api.post('/api/products/get_pallet_config', {
       ...formData,
     });
-    if (res.data === 'loaded') {
+    if (res.data.message === 'Pallet Config Completed') {
       dispatch({
         type: 'OPEN_SNACK_BAR',
-        payload: 'Load added',
+        payload: res.data.message,
+      });
+      dispatch({
+        type: 'PRODUCT_IS_OLD',
+        payload: res.data.product,
       });
     } else {
       dispatch({
         type: 'OPEN_SNACK_BAR',
-        payload: 'Load felid',
+        payload: 'Pallet Config Felid',
       });
     }
   } catch (err) {
