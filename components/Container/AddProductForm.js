@@ -9,6 +9,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import {
   acAddProduct,
   acAddProductLoad,
+  acGetPalletConfig,
   acIsNewProduct,
   acSaveUOM,
 } from '../../redux/containerAdmin';
@@ -345,7 +346,7 @@ const BoxMeasure = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(acSaveUOM(inputs));
+    dispatch(acGetPalletConfig(inputs));
   };
 
   return (

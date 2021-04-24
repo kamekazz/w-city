@@ -120,6 +120,34 @@ export const acSaveUOM = (formData) => async (dispatch, getState) => {
   }
 };
 
+export const acGetPalletConfig = (formData) => async (dispatch) => {
+  try {
+    const res = await api.post('/api/products/get_pallet_config', {
+      ...formData,
+    });
+    if (res.data === 'loaded') {
+      dispatch({
+        type: 'OPEN_SNACK_BAR',
+        payload: 'Load added',
+      });
+    } else {
+      dispatch({
+        type: 'OPEN_SNACK_BAR',
+        payload: 'Load felid',
+      });
+    }
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      //   errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
+    dispatch({
+      type: 'OPEN_SNACK_BAR',
+      payload: 'error',
+    });
+  }
+};
+
 const initialState = {
   isNewProduct: false,
   stationProduct: {},

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ProductModel = require('../models/ProductModel');
-const { default: uploadPic } = require('../utils/uploadPicToCloudinary');
+const scraper = require('./scraper.js');
 
 //localhost:3000/api/product
 // get  Product info
@@ -46,19 +46,9 @@ router.post('/', async (req, res) => {
 // Make sure is in inches not millimeters and pallet to 40X48  on onpallet.com.
 router.post('/get_pallet_config', async (req, res) => {
   const { ibm, msLength, msWidth, msHeight, loadingHeight } = req.body;
-
   try {
-    // This is the information I need back from the website.
-    // 1 The image URL of the palette
-    // Use this function to upload the image to Cloudinary and then get back the URL uploadPic()
-    // 2 n packages
-    // 3 n layers
-    // 4 Surface usage
-    // 5 Volume usage
-    // 6 Total weight
-    // Please save all the information on a random object.
-    let webInfo = {}; //<=
-    // After you get me the information, I'll save it in my database at my liking.
+    palletLayOut = await scraper('sren.png', msWidth, msLength, msHeight, 51);
+    console.log(`palletLayOut`, palletLayOut);
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);
