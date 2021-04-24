@@ -17,10 +17,10 @@ const ProductSchema = new Schema(
     palletStatus: { type: String, trim: true, default: 'pl' },
     plTi: { type: Number },
     plHi: { type: Number },
-    plMaxHeight: { type: Number }, //add to ui
+    plMaxHeight: { type: Number, default: 51 }, //add to ui
     p1Ti: { type: Number },
     p1Hi: { type: Number },
-    p1MaxHeight: { type: Number }, //add to ui
+    p1MaxHeight: { type: Number, default: 45 }, //add to ui
 
     msLength: { type: Number },
     msWidth: { type: Number },

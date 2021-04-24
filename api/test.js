@@ -1,12 +1,11 @@
-const scraper=require("./scraper.js")
+const scraper = require('./scraper.js');
 
+//scraper(width, length, height, loadheight)
 
-//scraper(path_for_screenshot, width, length, height, loadheight)
+async function loop() {
+  a = await scraper(33, 20, 10, 44.5);
 
-async function loop(){
-    a=await scraper('scren.png',4,8,5,12)
-    console.log(a)
-
+  console.log(a);
 }
 
-loop()
+loop();
