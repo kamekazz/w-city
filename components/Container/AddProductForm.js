@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import FormLabel from '@material-ui/core/FormLabel';
 import {
   acAddProduct,
@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
   cubeDiv: {
     width: '50%',
     paddingLeft: 4,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
 }));
 
@@ -507,7 +510,9 @@ const BoxMeasure = () => {
 };
 
 function PalletImages() {
-  const { stationProduct } = useSelector((state) => state.containerAdmin);
+  const { stationProduct, scrapingImage } = useSelector(
+    (state) => state.containerAdmin
+  );
   const [image, setImage] = useState(
     'https://res.cloudinary.com/dujqdfwzi/image/upload/v1617328839/w-city/kimwmoaof5twajxxytby.jpg'
   );
@@ -552,8 +557,15 @@ function PalletImages() {
     newString = `https://res.cloudinary.com/dujqdfwzi/image/upload/c_crop,h_${height},q_23,r_0,w_302,x_775,y_${y}/a_0${newString}`;
     return newString;
   }
+  if (scrapingImage) {
+    return (
+      <Paper style={{ width: 302, overflow: 'hidden' }}>
+        <CircularProgress size={302} />
+      </Paper>
+    );
+  }
   return (
-    <Paper style={{ width: 302 }}>
+    <Paper style={{ width: 302, overflow: 'hidden' }}>
       <img src={image} key={stationProduct.palletStatues} />
     </Paper>
   );

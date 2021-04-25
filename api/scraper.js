@@ -87,6 +87,10 @@ async function scraper(width1, length1, height1, loadheight1) {
     await page.waitForSelector(selector8);
     await page.click(selector8);
 
+    const selector09 = '#but_l_mode_3';
+    await page.waitForSelector(selector09);
+    await page.click(selector09);
+
     await page.waitFor(2000); //important
     //await page.waitForNavigation();
 
