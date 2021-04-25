@@ -8,8 +8,13 @@ cloudinary.config({
 const fs = require('fs');
 
 async function scraper(width1, length1, height1, loadheight1) {
+  const chromeOptions = {
+    headless: true,
+    defaultViewport: null,
+    args: ['--incognito', '--no-sandbox', '--single-process', '--no-zygote'],
+  };
   try {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch(chromeOptions);
     // const browser = await puppeteer.launch({ headless: false });
     const context = await browser.createIncognitoBrowserContext();
     const page = await context.newPage();
