@@ -3,6 +3,8 @@ const ADD_NEW_PRODUCT = 'ADD_NEW_PRODUCT';
 const CHANGE_IS_NEW_OR_OLD = 'CHANGE_IS_NEW_OR_OLD';
 const PRODUCT_IS_NEW = 'PRODUCT_IS_NEW';
 const PRODUCT_IS_OLD = 'PRODUCT_IS_OLD';
+const GETTING_PALLET_CONFIG = 'GETTING_PALLET_CONFIG';
+const FINCH_PALLET_CONFIG = 'FINCH_PALLET_CONFIG';
 
 export const acAddProduct = (formData) => async (dispatch) => {
   try {
@@ -121,6 +123,13 @@ export const acSaveUOM = (formData) => async (dispatch, getState) => {
 };
 
 export const acGetPalletConfig = (formData) => async (dispatch) => {
+  dispatch({
+    type: 'OPEN_SNACK_BAR',
+    payload: 'Getting Pallet Config',
+  });
+  dispatch({
+    type: GETTING_PALLET_CONFIG,
+  });
   try {
     const res = await api.post('/api/products/get_pallet_config', {
       ...formData,
@@ -134,10 +143,16 @@ export const acGetPalletConfig = (formData) => async (dispatch) => {
         type: 'PRODUCT_IS_OLD',
         payload: res.data.product,
       });
+      dispatch({
+        type: FINCH_PALLET_CONFIG,
+      });
     } else {
       dispatch({
         type: 'OPEN_SNACK_BAR',
         payload: 'Pallet Config Felid',
+      });
+      dispatch({
+        type: FINCH_PALLET_CONFIG,
       });
     }
   } catch (err) {
@@ -149,12 +164,16 @@ export const acGetPalletConfig = (formData) => async (dispatch) => {
       type: 'OPEN_SNACK_BAR',
       payload: 'error',
     });
+    dispatch({
+      type: FINCH_PALLET_CONFIG,
+    });
   }
 };
 
 const initialState = {
   isNewProduct: false,
   stationProduct: {},
+  scrapingImage: false,
 };
 
 function containerAdminReducer(state = initialState, action) {
@@ -180,6 +199,16 @@ function containerAdminReducer(state = initialState, action) {
         ...state,
         isNewProduct: false,
         stationProduct: payload,
+      };
+    case GETTING_PALLET_CONFIG:
+      return {
+        ...state,
+        scrapingImage: true,
+      };
+    case FINCH_PALLET_CONFIG:
+      return {
+        ...state,
+        scrapingImage: false,
       };
     default:
       return state;

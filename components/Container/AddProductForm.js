@@ -207,9 +207,11 @@ export default function AddProductForm() {
         )}
       </div>
       <div className={classes.cubeDiv}>
-        {stationProduct?.ibm && <BoxMeasure key={stationProduct?.updatedAt} />}
         {stationProduct?.ibm && (
-          <PalletImages key={stationProduct?.updatedAt} />
+          <>
+            <BoxMeasure key={stationProduct?.updatedAt} />
+            <PalletImages key={stationProduct?.updatedAt + 12} />
+          </>
         )}
       </div>
     </Container>
@@ -343,12 +345,15 @@ const useStylesBoxMeasure = makeStyles((theme) => ({
     gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
     gridTemplateRows: '1fr',
     gap: '1rem',
+    marginBottom: '1rem',
   },
 }));
 
 const BoxMeasure = () => {
   const classes = useStylesBoxMeasure();
-  const { stationProduct } = useSelector((state) => state.containerAdmin);
+  const { stationProduct, scrapingImage } = useSelector(
+    (state) => state.containerAdmin
+  );
   const [inputs, setInputs] = useState(stationProduct);
   const dispatch = useDispatch();
   function onChange(event) {
@@ -391,23 +396,24 @@ const BoxMeasure = () => {
         onChange={onChange}
         value={inputs.msHeight}
       />
-      <Button variant="contained" color="primary">
+      <Button
+        variant="contained"
+        color="primary"
+        type="submit"
+        disabled={scrapingImage}
+      >
         check
-      </Button>
-      <Button variant="contained" color="secondary" type="submit">
-        save
       </Button>
     </Paper>
   );
 };
 
 function PalletImages() {
+  const { stationProduct } = useSelector((state) => state.containerAdmin);
   return (
     <Paper style={{ width: 302 }}>
       <img
-        src={
-          'https://res.cloudinary.com/dujqdfwzi/image/upload/c_crop,h_290,q_23,r_0,w_302,x_775,y_250/a_0/v1619362914/o6ad2umosoccs4pjmxnv.png'
-        }
+        src={`https://res.cloudinary.com/dujqdfwzi/image/upload/v1619302430/q8frwuxktpcl1rleppct.png`}
       />
     </Paper>
   );

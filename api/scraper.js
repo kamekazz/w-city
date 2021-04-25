@@ -9,8 +9,8 @@ const fs = require('fs');
 
 async function scraper(width1, length1, height1, loadheight1) {
   try {
-    // const browser = await puppeteer.launch();
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch();
+    // const browser = await puppeteer.launch({ headless: false });
     const context = await browser.createIncognitoBrowserContext();
     const page = await context.newPage();
     await page.setViewport({ width: 1366, height: 768 });
