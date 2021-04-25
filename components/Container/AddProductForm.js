@@ -208,6 +208,9 @@ export default function AddProductForm() {
       </div>
       <div className={classes.cubeDiv}>
         {stationProduct?.ibm && <BoxMeasure key={stationProduct?.updatedAt} />}
+        {stationProduct?.ibm && (
+          <PalletImages key={stationProduct?.updatedAt} />
+        )}
       </div>
     </Container>
   );
@@ -397,3 +400,15 @@ const BoxMeasure = () => {
     </Paper>
   );
 };
+
+function PalletImages() {
+  return (
+    <Paper style={{ width: 302 }}>
+      <img
+        src={
+          'https://res.cloudinary.com/dujqdfwzi/image/upload/c_crop,h_290,q_23,r_0,w_302,x_775,y_250/a_0/v1619362914/o6ad2umosoccs4pjmxnv.png'
+        }
+      />
+    </Paper>
+  );
+}
