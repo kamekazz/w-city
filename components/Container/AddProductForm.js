@@ -443,6 +443,10 @@ const BoxMeasure = () => {
     dispatch(acGetPalletConfig(inputs));
   };
 
+  const onReset = () => {
+    dispatch(acResetProductInfo());
+  };
+
   return (
     <Paper component={'form'} className={classes.from} onSubmit={onSubmit}>
       <TextField
@@ -452,7 +456,7 @@ const BoxMeasure = () => {
         onChange={onChange}
         value={inputs.msLength}
         onInput={(e) => {
-          e.target.value = Math.max(0, parseInt(e.target.value))
+          e.target.value = Math.max(3, parseInt(e.target.value))
             .toString()
             .slice(0, 8);
         }}
@@ -466,7 +470,7 @@ const BoxMeasure = () => {
         onChange={onChange}
         value={inputs.msWidth}
         onInput={(e) => {
-          e.target.value = Math.max(0, parseInt(e.target.value))
+          e.target.value = Math.max(3, parseInt(e.target.value))
             .toString()
             .slice(0, 8);
         }}
@@ -480,16 +484,19 @@ const BoxMeasure = () => {
         onChange={onChange}
         value={inputs.msHeight}
         onInput={(e) => {
-          e.target.value = Math.max(0, parseInt(e.target.value))
+          e.target.value = Math.max(3, parseInt(e.target.value))
             .toString()
             .slice(0, 8);
         }}
         min={0}
         type="number"
       />
+      <Button variant="contained" onClick={onReset}>
+        Reset
+      </Button>
       <Button
         variant="contained"
-        color="primary"
+        color="secondary"
         type="submit"
         disabled={scrapingImage}
       >
