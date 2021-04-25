@@ -370,7 +370,6 @@ const BoxMeasure = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(acGetPalletConfig(inputs));
-    console.log(inputs);
   };
 
   return (
@@ -410,11 +409,45 @@ const BoxMeasure = () => {
 
 function PalletImages() {
   const { stationProduct } = useSelector((state) => state.containerAdmin);
+  const [image, setImage] = useState(
+    'https://res.cloudinary.com/dujqdfwzi/image/upload/v1617328839/w-city/kimwmoaof5twajxxytby.jpg'
+  );
+
+  function getActivePalletsImages(product) {
+    let palletStatues = product.palletStatus;
+    if (palletStatues === 'pl') {
+      if (product.palletImagesPl.length === 1) {
+        setImage(cuteString(product.palletImagesPl[0]));
+      } else {
+        setImage(
+          'https://res.cloudinary.com/dujqdfwzi/image/upload/v1617328839/w-city/kimwmoaof5twajxxytby.jpg'
+        );
+      }
+    } else {
+      if (product.palletImagesP1.length === 1) {
+        setImage(cuteString(product.palletImagesP1[0]));
+      } else {
+        setImage(
+          'https://res.cloudinary.com/dujqdfwzi/image/upload/v1617328839/w-city/kimwmoaof5twajxxytby.jpg'
+        );
+      }
+    }
+  }
+
+  useEffect(() => {
+    getActivePalletsImages(stationProduct);
+  }, [stationProduct, setImage]);
+
+  function cuteString(str) {
+    let newString = str;
+    let endString = str.length;
+    newString = str.slice(49, endString);
+    newString = `https://res.cloudinary.com/dujqdfwzi/image/upload/c_crop,h_290,q_23,r_0,w_302,x_775,y_250/a_0${newString}`;
+    return newString;
+  }
   return (
     <Paper style={{ width: 302 }}>
-      <img
-        src={`https://res.cloudinary.com/dujqdfwzi/image/upload/v1619302430/q8frwuxktpcl1rleppct.png`}
-      />
+      <img src={image} key={stationProduct.palletStatues} />
     </Paper>
   );
 }

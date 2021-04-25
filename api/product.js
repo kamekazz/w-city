@@ -57,11 +57,11 @@ router.post('/get_pallet_config', async (req, res) => {
     product.msWidth = msWidth;
     product.msHeight = msHeight;
     if (product.palletStatus === 'pl') {
-      product.palletImagesPl.push(palletLayOut.secure_url);
+      product.palletImagesPl = [palletLayOut.secure_url];
       product.plTi = palletLayOut['n packages:'] / palletLayOut['n layers:'];
       product.plHi = palletLayOut['n layers:'];
     } else {
-      product.palletImagesP1.push(palletLayOut.secure_url);
+      product.palletImagesP1 = [palletLayOut.secure_url];
       product.p1Ti = palletLayOut['n packages:'] / palletLayOut['n layers:'];
       product.p1Hi = palletLayOut['n layers:'];
     }
@@ -96,7 +96,10 @@ router.post('/update_product', async (req, res) => {
   const { ibm } = req.body;
   try {
     updatedProduct = await ProductModel.updateOne({ ibm }, { ...req.body });
-    res.status(200).json({ message: 'Update Product', updatedProduct });
+    if (updatedProduct) {
+      const product = await ProductModel.findOne({ ibm });
+      res.status(200).json({ message: 'Update Product', product });
+    }
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);
@@ -106,7 +109,7 @@ router.post('/update_product', async (req, res) => {
 module.exports = router;
 
 function getActiveMaxHeight(product) {
-  palletStatues = product.palletStatus;
+  let palletStatues = product.palletStatus;
   if (palletStatues === 'pl') {
     return product.plMaxHeight - 6.5;
   } else {

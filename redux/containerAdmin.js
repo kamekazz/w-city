@@ -104,6 +104,10 @@ export const acSaveUOM = (formData) => async (dispatch, getState) => {
         type: 'OPEN_SNACK_BAR',
         payload: 'Update Product',
       });
+      dispatch({
+        type: 'PRODUCT_IS_OLD',
+        payload: res.data.product,
+      });
     } else {
       dispatch({
         type: 'OPEN_SNACK_BAR',
