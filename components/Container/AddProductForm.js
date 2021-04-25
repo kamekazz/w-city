@@ -261,6 +261,13 @@ const UOMandSizeComponent = () => {
         variant="outlined"
         onChange={handleChange}
         value={inputs?.plUOM}
+        onInput={(e) => {
+          e.target.value = Math.max(0, parseInt(e.target.value))
+            .toString()
+            .slice(0, 8);
+        }}
+        min={0}
+        type="number"
       />
       <TextField
         name="plTi"
@@ -268,6 +275,13 @@ const UOMandSizeComponent = () => {
         variant="outlined"
         onChange={handleChange}
         value={inputs?.plTi}
+        onInput={(e) => {
+          e.target.value = Math.max(0, parseInt(e.target.value))
+            .toString()
+            .slice(0, 8);
+        }}
+        min={0}
+        type="number"
       />
       <TextField
         name="plHi"
@@ -275,6 +289,13 @@ const UOMandSizeComponent = () => {
         variant="outlined"
         onChange={handleChange}
         value={inputs?.plHi}
+        onInput={(e) => {
+          e.target.value = Math.max(0, parseInt(e.target.value))
+            .toString()
+            .slice(0, 8);
+        }}
+        min={0}
+        type="number"
       />
 
       <TextField
@@ -283,6 +304,13 @@ const UOMandSizeComponent = () => {
         variant="outlined"
         onChange={handleChange}
         value={inputs?.p1UOM}
+        onInput={(e) => {
+          e.target.value = Math.max(0, parseInt(e.target.value))
+            .toString()
+            .slice(0, 8);
+        }}
+        min={0}
+        type="number"
       />
       <TextField
         name="p1Ti"
@@ -290,6 +318,13 @@ const UOMandSizeComponent = () => {
         variant="outlined"
         onChange={handleChange}
         value={inputs?.p1Ti}
+        onInput={(e) => {
+          e.target.value = Math.max(0, parseInt(e.target.value))
+            .toString()
+            .slice(0, 8);
+        }}
+        min={0}
+        type="number"
       />
       <TextField
         name="p1Hi"
@@ -297,6 +332,13 @@ const UOMandSizeComponent = () => {
         variant="outlined"
         onChange={handleChange}
         value={inputs?.p1Hi}
+        onInput={(e) => {
+          e.target.value = Math.max(0, parseInt(e.target.value))
+            .toString()
+            .slice(0, 8);
+        }}
+        min={0}
+        type="number"
       />
       <TextField
         name="msUOM"
@@ -304,6 +346,13 @@ const UOMandSizeComponent = () => {
         variant="outlined"
         onChange={handleChange}
         value={inputs?.msUOM}
+        onInput={(e) => {
+          e.target.value = Math.max(0, parseInt(e.target.value))
+            .toString()
+            .slice(0, 8);
+        }}
+        min={0}
+        type="number"
       />
       <TextField
         name="plMaxHeight"
@@ -311,6 +360,13 @@ const UOMandSizeComponent = () => {
         variant="outlined"
         onChange={handleChange}
         value={inputs?.plMaxHeight}
+        onInput={(e) => {
+          e.target.value = Math.max(0, parseInt(e.target.value))
+            .toString()
+            .slice(0, 8);
+        }}
+        min={0}
+        type="number"
       />
       <TextField
         name="p1MaxHeight"
@@ -318,6 +374,13 @@ const UOMandSizeComponent = () => {
         variant="outlined"
         onChange={handleChange}
         value={inputs?.p1MaxHeight}
+        onInput={(e) => {
+          e.target.value = Math.max(0, parseInt(e.target.value))
+            .toString()
+            .slice(0, 8);
+        }}
+        min={0}
+        type="number"
       />
       <div className={classes.itemPalletConfig}>
         <FormLabel component="legend">Pallet Config</FormLabel>
@@ -380,6 +443,13 @@ const BoxMeasure = () => {
         variant="outlined"
         onChange={onChange}
         value={inputs.msLength}
+        onInput={(e) => {
+          e.target.value = Math.max(0, parseInt(e.target.value))
+            .toString()
+            .slice(0, 8);
+        }}
+        min={0}
+        type="number"
       />
       <TextField
         name="msWidth"
@@ -387,6 +457,13 @@ const BoxMeasure = () => {
         variant="outlined"
         onChange={onChange}
         value={inputs.msWidth}
+        onInput={(e) => {
+          e.target.value = Math.max(0, parseInt(e.target.value))
+            .toString()
+            .slice(0, 8);
+        }}
+        min={0}
+        type="number"
       />
       <TextField
         name="msHeight"
@@ -394,6 +471,13 @@ const BoxMeasure = () => {
         variant="outlined"
         onChange={onChange}
         value={inputs.msHeight}
+        onInput={(e) => {
+          e.target.value = Math.max(0, parseInt(e.target.value))
+            .toString()
+            .slice(0, 8);
+        }}
+        min={0}
+        type="number"
       />
       <Button
         variant="contained"
@@ -417,7 +501,7 @@ function PalletImages() {
     let palletStatues = product.palletStatus;
     if (palletStatues === 'pl') {
       if (product.palletImagesPl.length === 1) {
-        setImage(cuteString(product.palletImagesPl[0]));
+        setImage(cuteString(product.palletImagesPl[0], product.plMaxHeight));
       } else {
         setImage(
           'https://res.cloudinary.com/dujqdfwzi/image/upload/v1617328839/w-city/kimwmoaof5twajxxytby.jpg'
@@ -425,7 +509,7 @@ function PalletImages() {
       }
     } else {
       if (product.palletImagesP1.length === 1) {
-        setImage(cuteString(product.palletImagesP1[0]));
+        setImage(cuteString(product.palletImagesP1[0], product.p1MaxHeight));
       } else {
         setImage(
           'https://res.cloudinary.com/dujqdfwzi/image/upload/v1617328839/w-city/kimwmoaof5twajxxytby.jpg'
@@ -438,11 +522,19 @@ function PalletImages() {
     getActivePalletsImages(stationProduct);
   }, [stationProduct, setImage]);
 
-  function cuteString(str) {
+  function calculateImageHeigh(topHeight) {
+    let topHeightPlus = topHeight * 1.3;
+    topHeightPlus = Math.floor(topHeightPlus);
+    let height = 290 + topHeightPlus;
+    let y = 250 - topHeightPlus;
+    return { height, y };
+  }
+  function cuteString(str, topHeight) {
+    const { height, y } = calculateImageHeigh(topHeight);
     let newString = str;
     let endString = str.length;
     newString = str.slice(49, endString);
-    newString = `https://res.cloudinary.com/dujqdfwzi/image/upload/c_crop,h_290,q_23,r_0,w_302,x_775,y_250/a_0${newString}`;
+    newString = `https://res.cloudinary.com/dujqdfwzi/image/upload/c_crop,h_${height},q_23,r_0,w_302,x_775,y_${y}/a_0${newString}`;
     return newString;
   }
   return (
