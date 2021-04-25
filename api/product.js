@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
       status: 'loading',
     });
     await product.save();
-    res.status(200).send('save');
+    res.status(200).json({ message: 'Saved', product });
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);

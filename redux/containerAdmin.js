@@ -9,13 +9,14 @@ const FINCH_PALLET_CONFIG = 'FINCH_PALLET_CONFIG';
 export const acAddProduct = (formData) => async (dispatch) => {
   try {
     const res = await api.post('/api/products', { ...formData });
-    if (res.data === 'save') {
+    if (res.data.message === 'Saved') {
       dispatch({
         type: PRODUCT_IS_OLD,
+        payload: res.data.product,
       });
       dispatch({
         type: 'OPEN_SNACK_BAR',
-        payload: 'Save',
+        payload: res.data.message,
       });
     } else {
       dispatch({
