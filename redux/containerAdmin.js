@@ -5,6 +5,7 @@ const PRODUCT_IS_NEW = 'PRODUCT_IS_NEW';
 const PRODUCT_IS_OLD = 'PRODUCT_IS_OLD';
 const GETTING_PALLET_CONFIG = 'GETTING_PALLET_CONFIG';
 const FINCH_PALLET_CONFIG = 'FINCH_PALLET_CONFIG';
+const RESET_PRODUCT_INFO = 'RESET_PRODUCT_INFO';
 
 export const acAddProduct = (formData) => async (dispatch) => {
   try {
@@ -175,6 +176,12 @@ export const acGetPalletConfig = (formData) => async (dispatch) => {
   }
 };
 
+export const acResetProductInfo = () => async (dispatch, getState) => {
+  let stationProduct = getState().containerAdmin.stationProduct;
+  stationProduct.updatedAt = stationProduct.updatedAt + Date.now();
+  dispatch({ type: RESET_PRODUCT_INFO, payload: stationProduct });
+};
+
 const initialState = {
   isNewProduct: false,
   stationProduct: {},
@@ -214,6 +221,11 @@ function containerAdminReducer(state = initialState, action) {
       return {
         ...state,
         scrapingImage: false,
+      };
+    case RESET_PRODUCT_INFO:
+      return {
+        ...state,
+        stationProduct: payload,
       };
     default:
       return state;

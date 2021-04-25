@@ -11,6 +11,7 @@ import {
   acAddProductLoad,
   acGetPalletConfig,
   acIsNewProduct,
+  acResetProductInfo,
   acSaveUOM,
 } from '../../redux/containerAdmin';
 import { useDispatch, useSelector } from 'react-redux';
@@ -223,7 +224,7 @@ const useStylesUOM = makeStyles((theme) => ({
     display: 'grid',
     padding: '1rem',
     gridTemplateColumns: '1fr 1fr 1fr',
-    gridTemplateRows: '1fr 1fr 2fr',
+    gridTemplateRows: '1fr 1fr 1fr 2fr',
     gap: '1rem',
   },
   itemPalletConfig: {
@@ -251,6 +252,10 @@ const UOMandSizeComponent = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(acSaveUOM(inputs));
+  };
+
+  const onReset = () => {
+    dispatch(acResetProductInfo());
   };
 
   return (
@@ -394,6 +399,9 @@ const UOMandSizeComponent = () => {
           <FormControlLabel value="p1" control={<Radio />} label="P1" />
         </RadioGroup>
       </div>
+      <Button variant="contained" onClick={onReset}>
+        Reset
+      </Button>
       <Button variant="contained" color="secondary" type="submit">
         save
       </Button>
