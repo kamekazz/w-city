@@ -7,14 +7,34 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 500,
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+    },
   },
   from: {
-    width: '40%',
+    width: '50%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '100%',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      alignItems: 'center',
+      marginBottom: '1rem',
+    },
   },
   display: {
+    width: '50%',
+    paddingLeft: '1rem',
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    overflow: 'hidden',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      paddingLeft: 0,
+    },
   },
   displayCard: {
     width: '100%',
@@ -31,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.main,
     fontSize: '2rem',
     fontWeight: 900,
+    overflow: 'hidden',
   },
 }));
 
@@ -60,6 +81,26 @@ export default function EzPartialCalculator() {
     partial = totalAmount % plUOM;
     partial = partial / msUOM;
     msInPl = plUOM / msUOM;
+    if (isNaN(totalPl)) {
+      totalPl = 0;
+    }
+    if (!isFinite(totalPl)) {
+      totalPl = 0;
+    }
+    if (isNaN(msInPl)) {
+      msInPl = 0;
+    }
+    if (isNaN(partial)) {
+      partial = 0;
+    }
+
+    if (!Number.isInteger(msInPl)) {
+      msInPl = 0;
+    }
+    if (!Number.isInteger(partial)) {
+      partial = 0;
+    }
+
     return { totalPl, partial, msInPl };
   }
 
@@ -86,6 +127,14 @@ export default function EzPartialCalculator() {
       };
     });
   }
+  const clearInput = () => {
+    setInputs({
+      totalAmount: { value: 0 },
+      plUOM: { value: 0 },
+      msUOM: { value: 0 },
+    });
+    inputRef.current.focus();
+  };
   return (
     <Paper className={classes.root}>
       <div className={classes.from}>
@@ -105,6 +154,7 @@ export default function EzPartialCalculator() {
           value={inputs.totalAmount.value}
           onChange={onChange}
           style={{ paddingBottom: '1rem' }}
+          fullWidth
         />
         <TextField
           name="plUOM"
@@ -120,6 +170,7 @@ export default function EzPartialCalculator() {
           value={inputs.plUOM.value}
           onChange={onChange}
           style={{ paddingBottom: '1rem' }}
+          fullWidth
         />
         <TextField
           name="msUOM"
@@ -134,7 +185,17 @@ export default function EzPartialCalculator() {
           type="number"
           value={inputs.msUOM.value}
           onChange={onChange}
+          fullWidth
+          style={{ marginBottom: '1rem' }}
         />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={clearInput}
+          style={{ width: '100%' }}
+        >
+          reset
+        </Button>
       </div>
       <div className={classes.display}>
         <div className={classes.displayCard}>
