@@ -84,12 +84,20 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
     width: '25ch',
-    height: 70,
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
   },
   buttonContainer: {
     display: 'flex',
     justifyContent: 'flex-end',
     flexGrow: 1,
+  },
+  textFieldTransfers: {
+    display: 'flex',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
   },
 }));
 
@@ -98,6 +106,7 @@ export default function Form() {
 
   const [door, setDoor] = React.useState('Door?');
   const [transfer, setTransfer] = React.useState('freeport');
+  const [isTransfer, setIsTransfer] = React.useState('no');
 
   const handleChange = (event) => {
     setDoor(event.target.value);
@@ -105,32 +114,37 @@ export default function Form() {
   const handleChangeTransfer = (event) => {
     setTransfer(event.target.value);
   };
+
+  const handleChangeIsTransfer = (event) => {
+    setIsTransfer(event.target.value);
+  };
+
   return (
     <Paper className={classes.root}>
       <div className={classes.textFields}>
         <TextField
           label="Container"
-          defaultValue="Default Value"
+          name="containerId"
+          placeholder={`'xxxx123456'`}
           className={classes.textField}
-          helperText="Some important text"
           margin="dense"
           variant="filled"
+          required
         />
         <TextField
           label="Size"
-          defaultValue="Default Value"
+          name="size"
+          defaultValue="24 ft"
           className={classes.textField}
-          helperText="Some important text"
           margin="dense"
           variant="filled"
         />
         <TextField
           select
-          label="Select"
+          label="Door"
           value={door}
           className={classes.textField}
           onChange={handleChange}
-          helperText="Please select your currency"
           margin="dense"
           variant="filled"
         >
@@ -142,56 +156,60 @@ export default function Form() {
         </TextField>
         <TextField
           label="Forklift Driver"
-          defaultValue="Default Value"
           className={classes.textField}
-          helperText="Some important text"
+          name="forkliftDriver"
           margin="dense"
           variant="filled"
         />
         <TextField
-          label="unloader worker admin"
-          defaultValue="Default Value"
+          label="Unloader Worker Admin"
+          name="uwa"
           className={classes.textField}
-          helperText="Some important text"
           margin="dense"
           variant="filled"
         />
-        <div className={classes.textField} style={{ paddingTop: '1rem' }}>
-          <FormLabel component="legend">labelPlacement</FormLabel>
-          <RadioGroup
-            row
-            aria-label="position"
-            name="position"
-            defaultValue="top"
-          >
-            <FormControlLabel
-              value="no"
-              control={<Radio color="primary" />}
-              label="NO"
-            />
-            <FormControlLabel
-              value="yes"
-              control={<Radio color="primary" />}
-              label="Yes"
-            />
-          </RadioGroup>
+        <div className={classes.textFieldTransfers}>
+          <div className={classes.textField} style={{ paddingTop: 6 }}>
+            <FormLabel component="legend">Transfers</FormLabel>
+            <RadioGroup
+              row
+              aria-label="position"
+              name="position"
+              defaultValue="top"
+              value={isTransfer}
+              onChange={handleChangeIsTransfer}
+            >
+              <FormControlLabel
+                value="no"
+                control={<Radio color="primary" />}
+                label="NO"
+              />
+              <FormControlLabel
+                value="yes"
+                control={<Radio color="primary" />}
+                label="Yes"
+              />
+            </RadioGroup>
+          </div>
+          {isTransfer === 'yes' && (
+            <TextField
+              select
+              label="Transfers Locations"
+              value={transfer}
+              className={classes.textField}
+              onChange={handleChangeTransfer}
+              margin="dense"
+              variant="filled"
+            >
+              {transferOption.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          )}
         </div>
-        <TextField
-          select
-          label="Transfers"
-          value={transfer}
-          className={classes.textField}
-          onChange={handleChangeTransfer}
-          helperText="Please select your currency"
-          margin="dense"
-          variant="filled"
-        >
-          {transferOption.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
+
         <Button
           className={classes.button}
           variant="contained"
