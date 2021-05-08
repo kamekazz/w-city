@@ -7,6 +7,9 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { acAddContainer } from '../../redux/receivingReducer';
 
 const currencies = [
   {
@@ -111,6 +114,9 @@ export default function Form() {
     Size: '24 ft',
     door: 'Door?',
   });
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { disabledFormButton } = useSelector((state) => state.receivingReducer);
 
   function onChange(event) {
     const newValue = event.target.value;
@@ -148,7 +154,7 @@ export default function Form() {
     if (isTransfer === 'yes') {
       body = { ...body, transfer };
     }
-    console.log(`submit`, body);
+    dispatch(acAddContainer(body, router));
   };
 
   return (
@@ -258,7 +264,7 @@ export default function Form() {
           variant="contained"
           color="secondary"
           type="submit"
-          disabled={send}
+          disabled={disabledFormButton}
         >
           submit
         </Button>
