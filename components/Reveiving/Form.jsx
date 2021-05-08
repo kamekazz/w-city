@@ -1,5 +1,5 @@
 import { Button, Paper } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -103,14 +103,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Form() {
   const classes = useStyles();
-
-  const [door, setDoor] = React.useState('Door?');
   const [transfer, setTransfer] = React.useState('freeport');
   const [isTransfer, setIsTransfer] = React.useState('no');
+  const [inputs, setInputs] = useState({
+    containerId: { value: '' },
+    Size: { value: '24 ft' },
+    door: { value: 'Door?' },
+  });
 
-  const handleChange = (event) => {
-    setDoor(event.target.value);
-  };
+  function onChange(event) {
+    const newValue = event.target.value;
+    const inputName = event.target.name;
+    setInputs((prevState) => {
+      return {
+        ...prevState,
+        [inputName]: {
+          ...prevState[inputName],
+          value: newValue,
+          dirty: true,
+        },
+      };
+    });
+  }
+
   const handleChangeTransfer = (event) => {
     setTransfer(event.target.value);
   };
@@ -118,9 +133,17 @@ export default function Form() {
   const handleChangeIsTransfer = (event) => {
     setIsTransfer(event.target.value);
   };
+  const handelSubmit = (e) => {
+    e.preventDefault();
+    let body = { ...inputs, isTransfer };
+    if (isTransfer === 'yes') {
+      body = { ...body, transfer };
+    }
+    console.log(`submit`, body);
+  };
 
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.root} component={'form'} onSubmit={handelSubmit}>
       <div className={classes.textFields}>
         <TextField
           label="Container"
@@ -130,6 +153,7 @@ export default function Form() {
           margin="dense"
           variant="filled"
           required
+          onChange={onChange}
         />
         <TextField
           label="Size"
@@ -138,15 +162,17 @@ export default function Form() {
           className={classes.textField}
           margin="dense"
           variant="filled"
+          onChange={onChange}
         />
         <TextField
           select
           label="Door"
-          value={door}
+          value={inputs.door.value}
           className={classes.textField}
-          onChange={handleChange}
+          onChange={onChange}
           margin="dense"
           variant="filled"
+          name="door"
         >
           {currencies.map((option) => (
             <MenuItem key={option.value} value={option.value}>
@@ -160,6 +186,7 @@ export default function Form() {
           name="forkliftDriver"
           margin="dense"
           variant="filled"
+          onChange={onChange}
         />
         <TextField
           label="Unloader Worker Admin"
@@ -167,6 +194,7 @@ export default function Form() {
           className={classes.textField}
           margin="dense"
           variant="filled"
+          onChange={onChange}
         />
         <div className={classes.textFieldTransfers}>
           <div className={classes.textField} style={{ paddingTop: 6 }}>
@@ -214,8 +242,9 @@ export default function Form() {
           className={classes.button}
           variant="contained"
           color="secondary"
+          type="submit"
         >
-          Summit
+          submit
         </Button>
       </div>
     </Paper>
