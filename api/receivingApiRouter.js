@@ -2,24 +2,51 @@ const express = require('express');
 const router = express.Router();
 const ContainerModel = require('../models/ContainerModel');
 
-//localhost:3000/api/container
+//localhost:3000/api/receiving_container
+// get all container
+router.get('/', async (req, res) => {
+  try {
+    const existingContainerAllOpen = await ContainerModel.find({
+      status: 'open',
+    });
+    const existingContainerAllDraft = await ContainerModel.find({
+      status: 'draft',
+    });
+    if (existingContainerAllOpen || existingContainerAllDraft) {
+    } else {
+      return res.status(201).json({ message: `No Container  registered` });
+    }
+    res.status(200).json({
+      message: 'List of Container',
+      containers: [...existingContainerAllDraft, ...existingContainerAllOpen],
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(`Server error`);
+  }
+});
+
+//localhost:3000/api/receiving_container
 // add new container
 router.post('/', async (req, res) => {
-  const { ibm } = req.body;
+  const { containerId } = req.body;
   try {
-    const existingProduct = await ProductModel.findOne({ ibm });
-    if (existingProduct) {
-      return res
-        .status(401)
-        .json({ message: `Don't Product already registered` });
+    const existingContainer = await ContainerModel.findOne({ containerId });
+    if (existingContainer) {
+      if (
+        existingContainer.status === 'draft' ||
+        existingContainer.status === 'open'
+      ) {
+        return res
+          .status(201)
+          .json({ message: `Container already registered` });
+      }
     }
-    const product = new ProductModel({
-      activeCount: 0,
+    const container = new ContainerModel({
       ...req.body,
-      status: 'loading',
     });
-    await product.save();
-    res.status(200).json({ message: 'Saved', product });
+    await container.save();
+    res.status(200).json({ message: 'Saved', container });
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);

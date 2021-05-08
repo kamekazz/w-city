@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -8,6 +8,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import { useDispatch, useSelector } from 'react-redux';
+import { acGetAllActionContainer } from '../../redux/receivingReducer';
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
@@ -42,24 +44,6 @@ function createData(containerId, status, completion, size, locationDoor) {
   return { containerId, status, completion, size, locationDoor, id };
 }
 
-const rows = [
-  createData('India', 'IN', 1324171354, 3287263, 52),
-  createData('China', 'CN', 1403500365, 9596961, 52),
-  createData('Italy', 'IT', 60483973, 301340, 52),
-  createData('United States', 'US', 327167434, 9833520, 52),
-  createData('Canada', 'CA', 37602103, 9984670, 52),
-  createData('Australia', 'AU', 25475400, 7692024, 52),
-  createData('Germany', 'DE', 83019200, 357578, 52),
-  createData('Ireland', 'IE', 4857000, 70273, 52),
-  createData('Mexico', 'MX', 126577691, 1972550, 52),
-  createData('Japan', 'JP', 126317000, 377973, 52),
-  createData('France', 'FR', 67022000, 640679, 52),
-  createData('United Kingdom', 'GB', 67545757, 242495, 52),
-  createData('Russia', 'RU', 146793744, 17098246, 52),
-  createData('Nigeria', 'NG', 200962417, 923768, 52),
-  createData('Brazil', 'BR', 210147125, 8515767, 52),
-];
-
 const useStyles = makeStyles({
   root: {
     width: '100%',
@@ -73,6 +57,13 @@ export default function ReceivingTable() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const rows = useSelector(
+    (state) => state.receivingReducer.listOfActiveContainer
+  );
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(acGetAllActionContainer());
+  }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
