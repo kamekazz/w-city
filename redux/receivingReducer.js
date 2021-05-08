@@ -8,7 +8,7 @@ export const acAddContainer = (formData, router) => async (dispatch) => {
   });
   console.log(`formData`, formData);
   try {
-    const res = await api.post('/api/container', { ...formData });
+    const res = await api.post('/api/receiving_container', { ...formData });
     if (res.data.message === 'Saved') {
       router.push(`/container/${res.data.containerId}`);
       dispatch({
