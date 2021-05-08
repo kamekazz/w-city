@@ -77,6 +77,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     width: '25ch',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
   },
   button: {
     margin: theme.spacing(1),
@@ -189,8 +192,6 @@ export default function Form() {
             </MenuItem>
           ))}
         </TextField>
-      </div>
-      <div className={classes.buttonContainer}>
         <Button
           className={classes.button}
           variant="contained"
