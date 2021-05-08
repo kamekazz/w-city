@@ -106,24 +106,31 @@ export default function Form() {
   const [transfer, setTransfer] = React.useState('freeport');
   const [isTransfer, setIsTransfer] = React.useState('no');
   const [inputs, setInputs] = useState({
-    containerId: { value: '' },
-    Size: { value: '24 ft' },
-    door: { value: 'Door?' },
+    containerId: '',
+    Size: '24 ft',
+    door: 'Door?',
   });
 
   function onChange(event) {
     const newValue = event.target.value;
     const inputName = event.target.name;
-    setInputs((prevState) => {
-      return {
-        ...prevState,
-        [inputName]: {
-          ...prevState[inputName],
-          value: newValue,
-          dirty: true,
-        },
-      };
-    });
+
+    if (inputName === 'containerId') {
+      setInputs((prevState) => {
+        console.log('good');
+        return {
+          ...prevState,
+          inputName: newValue,
+        };
+      });
+    } else {
+      setInputs((prevState) => {
+        return {
+          ...prevState,
+          inputName: newValue,
+        };
+      });
+    }
   }
 
   const handleChangeTransfer = (event) => {
@@ -154,6 +161,9 @@ export default function Form() {
           variant="filled"
           required
           onChange={onChange}
+          type="text"
+          inputProps={{ style: { textTransform: 'uppercase' }, maxLength: 11 }}
+          autoFocus
         />
         <TextField
           label="Size"
@@ -163,11 +173,12 @@ export default function Form() {
           margin="dense"
           variant="filled"
           onChange={onChange}
+          inputProps={{ maxLength: 5 }}
         />
         <TextField
           select
           label="Door"
-          value={inputs.door.value}
+          value={inputs.door}
           className={classes.textField}
           onChange={onChange}
           margin="dense"
@@ -187,6 +198,7 @@ export default function Form() {
           margin="dense"
           variant="filled"
           onChange={onChange}
+          inputProps={{ style: { textTransform: 'capitalize' } }}
         />
         <TextField
           label="Unloader Worker Admin"
@@ -195,6 +207,7 @@ export default function Form() {
           margin="dense"
           variant="filled"
           onChange={onChange}
+          inputProps={{ style: { textTransform: 'capitalize' } }}
         />
         <div className={classes.textFieldTransfers}>
           <div className={classes.textField} style={{ paddingTop: 6 }}>
@@ -237,7 +250,6 @@ export default function Form() {
             </TextField>
           )}
         </div>
-
         <Button
           className={classes.button}
           variant="contained"
