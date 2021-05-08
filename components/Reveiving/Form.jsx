@@ -105,6 +105,7 @@ export default function Form() {
   const classes = useStyles();
   const [transfer, setTransfer] = React.useState('freeport');
   const [isTransfer, setIsTransfer] = React.useState('no');
+  const [send, setSend] = useState(false);
   const [inputs, setInputs] = useState({
     containerId: '',
     Size: '24 ft',
@@ -142,6 +143,7 @@ export default function Form() {
   };
   const handelSubmit = (e) => {
     e.preventDefault();
+    setSend(true);
     let body = { ...inputs, isTransfer };
     if (isTransfer === 'yes') {
       body = { ...body, transfer };
@@ -208,6 +210,7 @@ export default function Form() {
           variant="filled"
           onChange={onChange}
           inputProps={{ style: { textTransform: 'capitalize' } }}
+          required
         />
         <div className={classes.textFieldTransfers}>
           <div className={classes.textField} style={{ paddingTop: 6 }}>
@@ -255,6 +258,7 @@ export default function Form() {
           variant="contained"
           color="secondary"
           type="submit"
+          disabled={send}
         >
           submit
         </Button>
