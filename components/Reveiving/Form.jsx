@@ -108,10 +108,8 @@ export default function Form() {
   const classes = useStyles();
   const [transfer, setTransfer] = React.useState('freeport');
   const [isTransfer, setIsTransfer] = React.useState('no');
-  const [send, setSend] = useState(false);
   const [inputs, setInputs] = useState({
-    containerId: '',
-    Size: '24 ft',
+    size: '24',
     door: 'Door?',
   });
   const dispatch = useDispatch();
@@ -121,23 +119,12 @@ export default function Form() {
   function onChange(event) {
     const newValue = event.target.value;
     const inputName = event.target.name;
-
-    if (inputName === 'containerId') {
-      setInputs((prevState) => {
-        console.log('good');
-        return {
-          ...prevState,
-          inputName: newValue,
-        };
-      });
-    } else {
-      setInputs((prevState) => {
-        return {
-          ...prevState,
-          inputName: newValue,
-        };
-      });
-    }
+    setInputs((prevState) => {
+      return {
+        ...prevState,
+        [inputName]: newValue,
+      };
+    });
   }
 
   const handleChangeTransfer = (event) => {
@@ -149,7 +136,6 @@ export default function Form() {
   };
   const handelSubmit = (e) => {
     e.preventDefault();
-    setSend(true);
     let body = { ...inputs, isTransfer };
     if (isTransfer === 'yes') {
       body = { ...body, transfer };

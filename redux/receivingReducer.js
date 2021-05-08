@@ -6,8 +6,9 @@ export const acAddContainer = (formData, router) => async (dispatch) => {
   dispatch({
     type: DISABLED_FORM_BUTTON_ON_RECEIVING,
   });
+  console.log(`formData`, formData);
   try {
-    const res = await api.post('/api/add_container', { ...formData });
+    const res = await api.post('/api/container', { ...formData });
     if (res.data.message === 'Saved') {
       router.push(`/container/${res.data.containerId}`);
       dispatch({
