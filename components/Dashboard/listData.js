@@ -1,6 +1,6 @@
 export const listData = [
   {
-    title: 'Container',
+    title: 'Slam Admin',
     subtitle: 'Admin control and Information',
     image: '/images/dashboard/container.jpg',
     to: '/containers',
@@ -22,5 +22,11 @@ export const listData = [
     subtitle: 'line A,line B,line C,line D',
     image: '/images/dashboard/display_line.jpeg',
     to: '/display_line',
+  },
+  {
+    title: 'Receiving',
+    subtitle: 'line A,line B,line C,line D',
+    image: '/images/dashboard/display_line.jpeg',
+    to: '/receiving',
   },
 ];
