@@ -69,6 +69,7 @@ export const acGetAllActionContainer = () => async (dispatch) => {
 };
 
 export const acGetOneContainer = (containerId) => async (dispatch) => {
+  dispatch({ type: REMOVE_STATION_CONTAINER });
   dispatch({ type: RECEIVING_LODGINGS, payload: true });
   try {
     const res = await api.get(`/api/receiving_container/${containerId}`);
