@@ -14,27 +14,58 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 const columns = [
-  { id: 'containerId', label: 'Container', minWidth: 170 },
-  { id: 'status', label: 'Status', minWidth: 100 },
+  { id: 'containerId', label: 'IBM', minWidth: 100 },
+  { id: 'status', label: 'Alias', minWidth: 100 },
   {
     id: 'completion',
-    label: 'Completion %',
-    minWidth: 170,
-    align: 'right',
+    label: 'Qty Ship EA',
+    minWidth: 100,
     format: (value) => value.toLocaleString('en-US'),
   },
   {
     id: 'size',
-    label: 'Size\u00a0(ft\u00b2)',
-    minWidth: 170,
-    align: 'right',
+    label: 'MS Cnt',
+    minWidth: 100,
     format: (value) => value.toLocaleString('en-US'),
   },
   {
     id: 'door',
-    label: 'Door',
-    minWidth: 170,
-    align: 'right',
+    label: 'PL Cnt',
+    minWidth: 100,
+    format: (value) => value.toFixed(2),
+  },
+  {
+    id: 'door',
+    label: 'PL UOM',
+    minWidth: 100,
+
+    format: (value) => value.toFixed(2),
+  },
+  {
+    id: 'door',
+    label: 'P1 Cnt',
+    minWidth: 100,
+
+    format: (value) => value.toFixed(2),
+  },
+  {
+    id: 'door',
+    label: 'P1 UOM',
+    minWidth: 100,
+
+    format: (value) => value.toFixed(2),
+  },
+  {
+    id: 'door',
+    label: 'Partial Pallet',
+    minWidth: 100,
+
+    format: (value) => value.toFixed(2),
+  },
+  {
+    id: 'door',
+    label: 'Transfer',
+    minWidth: 100,
     format: (value) => value.toFixed(2),
   },
 ];
@@ -44,11 +75,11 @@ const useStyles = makeStyles({
     width: '100%',
   },
   container: {
-    maxHeight: '60vh',
+    maxHeight: '48vh',
   },
 });
 
-export default function ReceivingTable() {
+export default function ProductOnContainer() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);

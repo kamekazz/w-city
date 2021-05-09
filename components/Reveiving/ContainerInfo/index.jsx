@@ -69,10 +69,10 @@ export default function ContainerInfoContainer() {
       <TabPanel value={value} index={0} className={classes.tap}>
         <AddProductContainer />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={value} index={1} className={classes.tap}>
         df
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={value} index={2} className={classes.tap}>
         3
       </TabPanel>
     </div>
