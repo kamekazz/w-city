@@ -11,7 +11,7 @@ export const acAddContainer = (formData, router) => async (dispatch) => {
   try {
     const res = await api.post('/api/receiving_container', { ...formData });
     if (res.data.message === 'Saved') {
-      router.push(`/container/${res.data.container.containerId}`);
+      router.push(`/receiving/${res.data.container.containerId}`);
       dispatch({
         type: ACTIVATE_FORM_BUTTON_ON_RECEIVING,
       });
@@ -43,7 +43,10 @@ export const acGetAllActionContainer = () => async (dispatch) => {
   try {
     const res = await api.get('/api/receiving_container');
     if (res.data.message === 'List of Container') {
-      console.log(res.data.containers);
+      dispatch({
+        type: ADD_ACTIVE_CONTAINER_LIST,
+        payload: res.data.containers,
+      });
     } else {
       dispatch({
         type: 'OPEN_SNACK_BAR',
@@ -80,6 +83,11 @@ function receivingReducer(state = initialState, action) {
       return {
         ...state,
         disabledFormButton: false,
+      };
+    case ADD_ACTIVE_CONTAINER_LIST:
+      return {
+        ...state,
+        listOfActiveContainer: payload,
       };
     default:
       return state;

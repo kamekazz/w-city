@@ -162,7 +162,7 @@ export default function Form() {
         <TextField
           label="Size"
           name="size"
-          defaultValue="24 ft"
+          defaultValue="24"
           className={classes.textField}
           margin="dense"
           variant="filled"

@@ -31,18 +31,13 @@ const columns = [
     format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'locationDoor',
+    id: 'door',
     label: 'Door',
     minWidth: 170,
     align: 'right',
     format: (value) => value.toFixed(2),
   },
 ];
-
-function createData(containerId, status, completion, size, locationDoor) {
-  let id = getRandomInt(1000);
-  return { containerId, status, completion, size, locationDoor, id };
-}
 
 const useStyles = makeStyles({
   root: {
@@ -96,7 +91,7 @@ export default function ReceivingTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
