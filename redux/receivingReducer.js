@@ -2,6 +2,9 @@ import api from '../utils/api';
 const DISABLED_FORM_BUTTON_ON_RECEIVING = 'DISABLED_FORM_BUTTON_ON_RECEIVING';
 const ACTIVATE_FORM_BUTTON_ON_RECEIVING = 'ACTIVATE_FORM_BUTTON_ON_RECEIVING';
 const ADD_ACTIVE_CONTAINER_LIST = 'ADD_ACTIVE_CONTAINER_LIST';
+const ADD_STATION_CONTAINER = 'ADD_STATION_CONTAINER';
+const REMOVE_STATION_CONTAINER = 'REMOVE_STATION_CONTAINER';
+const RECEIVING_LODGINGS = 'RECEIVING_LODGINGS';
 
 export const acAddContainer = (formData, router) => async (dispatch) => {
   dispatch({
@@ -65,10 +68,44 @@ export const acGetAllActionContainer = () => async (dispatch) => {
   }
 };
 
+export const acGetOneContainer = (containerId) => async (dispatch) => {
+  dispatch({ type: RECEIVING_LODGINGS, payload: true });
+  try {
+    const res = await api.get(`/api/receiving_container${containerId}`);
+    if (res.data.message === 'Container') {
+      dispatch({
+        type: ADD_STATION_CONTAINER,
+        payload: res.data.container,
+      });
+      dispatch({ type: RECEIVING_LODGINGS, payload: false });
+    } else {
+      dispatch({
+        type: 'OPEN_SNACK_BAR',
+        payload: res.data.message,
+      });
+      dispatch({
+        type: REMOVE_STATION_CONTAINER,
+      });
+      dispatch({ type: RECEIVING_LODGINGS, payload: false });
+    }
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      //   errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
+    dispatch({
+      type: 'OPEN_SNACK_BAR',
+      payload: 'error',
+    });
+    dispatch({ type: RECEIVING_LODGINGS, payload: false });
+  }
+};
+
 const initialState = {
   stationContainer: {},
   disabledFormButton: false,
   listOfActiveContainer: [],
+  lodging: false,
 };
 
 function receivingReducer(state = initialState, action) {
@@ -88,6 +125,21 @@ function receivingReducer(state = initialState, action) {
       return {
         ...state,
         listOfActiveContainer: payload,
+      };
+    case ADD_STATION_CONTAINER:
+      return {
+        ...state,
+        stationContainer: payload,
+      };
+    case REMOVE_STATION_CONTAINER:
+      return {
+        ...state,
+        stationContainer: {},
+      };
+    case RECEIVING_LODGINGS:
+      return {
+        ...state,
+        lodging: payload,
       };
     default:
       return state;
