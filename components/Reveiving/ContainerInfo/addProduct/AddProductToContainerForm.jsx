@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
     },
+    marginBottom: theme.spacing(2),
   },
   ibmForm: {
     display: 'flex',

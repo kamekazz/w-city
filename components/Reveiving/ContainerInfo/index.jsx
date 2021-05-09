@@ -40,7 +40,14 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    // backgroundColor: theme.palette.background.paper,
+  },
+  tap: {
+    '& .MuiBox-root': {
+      padding: theme.spacing(2),
+      [theme.breakpoints.down('xs')]: {
+        padding: theme.spacing(1),
+      },
+    },
   },
 }));
 
@@ -59,10 +66,12 @@ export default function ContainerInfoContainer() {
           <Tab label="container Information" {...a11yProps(0)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={0} className={classes.tap}>
         <AddProductContainer />
       </TabPanel>
-      <TabPanel value={value} index={1}></TabPanel>
+      <TabPanel value={value} index={1}>
+        df
+      </TabPanel>
       <TabPanel value={value} index={2}>
         3
       </TabPanel>
