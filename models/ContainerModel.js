@@ -18,6 +18,17 @@ const ContainerSchema = new Schema(
     status: { type: String, trim: true, default: 'draft' },
     size: { type: String, trim: true, default: '24' },
     completion: { type: Number, default: 0 },
+    items: [{ type: String, trim: true }],
+    itemsQtyShip: [
+      {
+        ibm: { type: String },
+        qtyS: { type: Number },
+        qtyR: { type: Number },
+        transfer: { type: String, trim: true, default: 'cranberry' },
+        status: { type: String },
+        itemId: { type: Number },
+      },
+    ],
   },
   { timestamps: true }
 );

@@ -10,9 +10,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { useDispatch, useSelector } from 'react-redux';
 import { acGetAllActionContainer } from '../../redux/receivingReducer';
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
+
 const columns = [
   { id: 'containerId', label: 'Container', minWidth: 170 },
   { id: 'status', label: 'Status', minWidth: 100 },

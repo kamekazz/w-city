@@ -14,56 +14,52 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 const columns = [
-  { id: 'containerId', label: 'IBM', minWidth: 100 },
-  { id: 'status', label: 'Alias', minWidth: 100 },
+  { id: 'ibm', label: 'IBM', minWidth: 100 },
+  { id: 'alias', label: 'Alias', minWidth: 100 },
   {
-    id: 'completion',
+    id: 'qtyS',
     label: 'Qty Ship EA',
     minWidth: 100,
     format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'size',
+    id: 'msCnt',
     label: 'MS Cnt',
     minWidth: 100,
     format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'door',
+    id: 'plCnt',
     label: 'PL Cnt',
     minWidth: 100,
     format: (value) => value.toFixed(2),
   },
   {
-    id: 'door',
+    id: 'plUOM',
     label: 'PL UOM',
     minWidth: 100,
-
     format: (value) => value.toFixed(2),
   },
   {
-    id: 'door',
+    id: 'p1Cnt',
     label: 'P1 Cnt',
     minWidth: 100,
-
     format: (value) => value.toFixed(2),
   },
   {
-    id: 'door',
+    id: 'p1UOM',
     label: 'P1 UOM',
     minWidth: 100,
-
     format: (value) => value.toFixed(2),
   },
   {
-    id: 'door',
+    id: 'pP',
     label: 'Partial Pallet',
     minWidth: 100,
-
     format: (value) => value.toFixed(2),
   },
   {
-    id: 'door',
+    id: 'transfer',
     label: 'Transfer',
     minWidth: 100,
     format: (value) => value.toFixed(2),
@@ -83,9 +79,7 @@ export default function ProductOnContainer() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const rows = useSelector(
-    (state) => state.receivingReducer.listOfActiveContainer
-  );
+  const rows = [{ ibm: '131000', qtyS: 1000, itemId: getRandomInt(1000) }];
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(acGetAllActionContainer());
@@ -121,20 +115,7 @@ export default function ProductOnContainer() {
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
+                return <DynamicTableRow key={row.itemId} row={row} />;
               })}
           </TableBody>
         </Table>
@@ -149,5 +130,22 @@ export default function ProductOnContainer() {
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
     </Paper>
+  );
+}
+
+function DynamicTableRow({ row }) {
+  return (
+    <TableRow hover role="checkbox" tabIndex={-1}>
+      {columns.map((column) => {
+        const value = row[column.id];
+        return (
+          <TableCell key={column.id} align={column.align}>
+            {column.format && typeof value === 'number'
+              ? column.format(value)
+              : value}
+          </TableCell>
+        );
+      })}
+    </TableRow>
   );
 }
