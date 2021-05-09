@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { acGetOneContainer } from '../../redux/receivingReducer';
 import withAuthorization from '../../components/higherOrderComponents/withAuthorization';
+import ContainerInfoContainer from '../../components/Reveiving/ContainerInfo';
 
 function ReceivingContainerPage() {
   const router = useRouter();
@@ -20,7 +21,7 @@ function ReceivingContainerPage() {
   if (!stationContainer) {
     return <div>lodging</div>;
   } else {
-    return <div>{stationContainer.containerId}</div>;
+    return <ContainerInfoContainer />;
   }
 }
 export default withAuthorization(ReceivingContainerPage);
