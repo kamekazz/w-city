@@ -53,4 +53,25 @@ router.post('/', async (req, res) => {
   }
 });
 
+//localhost:3000/api/receiving_container/:containerId
+// get one container
+router.get('/:containerId', async (req, res) => {
+  try {
+    const existingContainer = await ContainerModel.findOne({
+      containerId: req.params.containerId,
+    });
+    if (!existingContainer) {
+    } else {
+      return res.status(201).json({ message: `Container Does Not Exist` });
+    }
+    res.status(200).json({
+      message: 'List of Container',
+      container: existingContainer,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(`Server error`);
+  }
+});
+
 module.exports = router;
