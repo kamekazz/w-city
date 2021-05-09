@@ -71,7 +71,7 @@ export const acGetAllActionContainer = () => async (dispatch) => {
 export const acGetOneContainer = (containerId) => async (dispatch) => {
   dispatch({ type: RECEIVING_LODGINGS, payload: true });
   try {
-    const res = await api.get(`/api/receiving_container${containerId}`);
+    const res = await api.get(`/api/receiving_container/${containerId}`);
     if (res.data.message === 'Container') {
       dispatch({
         type: ADD_STATION_CONTAINER,

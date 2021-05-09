@@ -61,11 +61,10 @@ router.get('/:containerId', async (req, res) => {
       containerId: req.params.containerId,
     });
     if (!existingContainer) {
-    } else {
       return res.status(201).json({ message: `Container Does Not Exist` });
     }
     res.status(200).json({
-      message: 'List of Container',
+      message: 'Container',
       container: existingContainer,
     });
   } catch (error) {
