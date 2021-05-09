@@ -54,13 +54,18 @@ const transferOption = [
     value: 'freeport',
     label: 'Freeport ',
   },
-  {
-    value: 'freeport/cranberry',
-    label: 'Freeport/Cranberry',
-  },
+
   {
     value: 'cranberry',
     label: 'Cranberry',
+  },
+  {
+    value: 'quality',
+    label: 'Quality',
+  },
+  {
+    value: 'freeport/cranberry/quality',
+    label: 'Freeport/CranberryQuality',
   },
 ];
 

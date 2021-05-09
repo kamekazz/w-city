@@ -8,11 +8,27 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import { useDispatch, useSelector } from 'react-redux';
+import { acIsNewProduct } from '../../../../redux/containerAdmin';
+const transferOption = [
+  {
+    value: 'freeport',
+    label: 'Freeport ',
+  },
+  {
+    value: 'cranberry',
+    label: 'Cranberry',
+  },
+  {
+    value: 'quality',
+    label: 'Quality',
+  },
+];
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
     marginBottom: theme.spacing(1),
+    maxWidth: 452,
   },
   textFields: {
     display: 'flex',
@@ -23,17 +39,13 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: '25ch',
-    [theme.breakpoints.down('xs')]: {
-      width: '100%',
-    },
+
+    width: '100%',
   },
   button: {
     margin: theme.spacing(1),
-    width: '25ch',
-    [theme.breakpoints.down('xs')]: {
-      width: '100%',
-    },
+
+    width: '100%',
   },
   buttonContainer: {
     display: 'flex',
@@ -42,16 +54,19 @@ const useStyles = makeStyles((theme) => ({
   },
   textFieldTransfers: {
     display: 'flex',
-    [theme.breakpoints.down('xs')]: {
-      width: '100%',
-    },
+
+    width: '100%',
   },
 }));
 export default function AddProductToContainerForm() {
   const dispatch = useDispatch();
   const inputRef = useRef();
   const classes = useStyles();
-  const [disabledAddButton, setDisabledAddButton] = useState(true);
+  const { isNewProduct, stationProduct } = useSelector(
+    (state) => state.containerAdmin
+  );
+  const [transfer, setTransfer] = React.useState('freeport');
+  const { stationContainer } = useSelector((state) => state.receivingReducer);
   const [inputs, setInputs] = useState({
     ibm: '',
     alias: '',
@@ -70,6 +85,34 @@ export default function AddProductToContainerForm() {
       };
     });
   }
+
+  useEffect(() => {
+    if (inputs.ibm.length === 6) {
+      dispatch(acIsNewProduct(inputs.ibm));
+    } else {
+      dispatch({
+        type: 'PRODUCT_IS_OLD',
+      });
+    }
+  }, [inputs.ibm]);
+
+  useEffect(() => {
+    if (stationProduct?.alias) {
+      setInputs((prevState) => {
+        return {
+          ...prevState,
+          ['alias']: stationProduct.alias,
+        };
+      });
+    } else {
+      setInputs((prevState) => {
+        return {
+          ...prevState,
+          ['alias']: '',
+        };
+      });
+    }
+  }, [stationProduct]);
 
   const handleChangeTransfer = (event) => {
     setTransfer(event.target.value);
@@ -143,6 +186,26 @@ export default function AddProductToContainerForm() {
           variant="filled"
           className={classes.textField}
         />
+
+        {stationContainer.isTransfer === 'yes' && (
+          <TextField
+            select
+            label="Transfers Locations"
+            value={stationContainer.transfer}
+            className={classes.textField}
+            onChange={handleChangeTransfer}
+            margin="dense"
+            variant="filled"
+            value={transfer}
+          >
+            {transferOption.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+        )}
+
         <Button
           variant="contained"
           color="primary"
