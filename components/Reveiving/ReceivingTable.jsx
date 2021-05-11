@@ -10,7 +10,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { useDispatch, useSelector } from 'react-redux';
 import { acGetAllActionContainer } from '../../redux/receivingReducer';
-
+import { useRouter } from 'next/router';
 const columns = [
   { id: 'containerId', label: 'Container', minWidth: 170 },
   { id: 'status', label: 'Status', minWidth: 100 },
@@ -44,9 +44,13 @@ const useStyles = makeStyles({
   container: {
     maxHeight: '60vh',
   },
+  rowInfo: {
+    cursor: 'pointer',
+  },
 });
 
 export default function ReceivingTable() {
+  const router = useRouter();
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -89,7 +93,14 @@ export default function ReceivingTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row._id}
+                    className={classes.rowInfo}
+                    onClick={() => router.push(`/receiving/${row.containerId}`)}
+                  >
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
