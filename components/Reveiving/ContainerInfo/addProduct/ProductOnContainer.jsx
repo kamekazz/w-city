@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -10,6 +10,8 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { useDispatch, useSelector } from 'react-redux';
 import { acGetAllActionContainer } from '../../../../redux/receivingReducer';
+import { acIsNewProduct } from '../../../../redux/containerAdmin';
+import api from '../../../../utils/api';
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
@@ -134,18 +136,23 @@ export default function ProductOnContainer() {
 }
 
 function DynamicTableRow({ row }) {
+  const [productInfo, setProductInfo] = useState({});
+
+  useEffect(() => {
+    let isSubscribed = true;
+    async function fetchMyAPI() {
+      const res = await api.get(`/api/products/${row.ibm}`);
+      if (isSubscribed) {
+        setProductInfo(res.data.product);
+      }
+    }
+    fetchMyAPI();
+    return () => (isSubscribed = false);
+  }, []);
+
   return (
     <TableRow hover role="checkbox" tabIndex={-1}>
-      {columns.map((column) => {
-        const value = row[column.id];
-        return (
-          <TableCell key={column.id} align={column.align}>
-            {column.format && typeof value === 'number'
-              ? column.format(value)
-              : value}
-          </TableCell>
-        );
-      })}
+      <TableCell></TableCell>
     </TableRow>
   );
 }
