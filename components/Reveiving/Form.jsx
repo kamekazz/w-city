@@ -241,6 +241,7 @@ export default function Form() {
               onChange={handleChangeTransfer}
               margin="dense"
               variant="filled"
+              name="transfer"
             >
               {transferOption.map((option) => (
                 <MenuItem key={option.value} value={option.value}>

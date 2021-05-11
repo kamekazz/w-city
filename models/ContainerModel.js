@@ -25,7 +25,7 @@ const ContainerSchema = new Schema(
         qtyS: { type: Number },
         qtyR: { type: Number },
         transfer: { type: String, trim: true, default: 'cranberry' },
-        status: { type: String },
+        status: { type: String, trim: true, default: 'added' },
         itemId: { type: Number },
       },
     ],

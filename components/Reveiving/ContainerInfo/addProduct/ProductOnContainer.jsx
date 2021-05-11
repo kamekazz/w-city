@@ -81,7 +81,14 @@ export default function ProductOnContainer() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const rows = [{ ibm: '131000', qtyS: 1000, itemId: getRandomInt(1000) }];
+  const rows = [
+    {
+      ibm: '131000',
+      qtyS: 3000,
+      itemId: getRandomInt(1000),
+      transfer: 'cranberry',
+    },
+  ];
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(acGetAllActionContainer());
@@ -137,22 +144,63 @@ export default function ProductOnContainer() {
 
 function DynamicTableRow({ row }) {
   const [productInfo, setProductInfo] = useState({});
-
   useEffect(() => {
     let isSubscribed = true;
     async function fetchMyAPI() {
       const res = await api.get(`/api/products/${row.ibm}`);
       if (isSubscribed) {
-        setProductInfo(res.data.product);
+        setProductInfo({ ...res.data.product, ...row });
+        console.log(productInfo);
       }
     }
     fetchMyAPI();
     return () => (isSubscribed = false);
   }, []);
-
+  console.log(`productInfo`, productInfo);
+  if (!productInfo.alias) {
+    return null;
+  }
   return (
     <TableRow hover role="checkbox" tabIndex={-1}>
-      <TableCell></TableCell>
+      <TableCell>{productInfo.ibm}</TableCell>
+      <TableCell>{productInfo.alias}</TableCell>
+      <TableCell>{productInfo.qtyS}</TableCell>
+      <TableCell>{productInfo.qtyS / productInfo.msUOM}</TableCell>
+
+      <TableCell>
+        {getPalletSolent(productInfo.qtyS, productInfo.plUOM)}
+      </TableCell>
+      <TableCell>{productInfo.msUOM}</TableCell>
+      <TableCell>
+        {getPalletSolent(productInfo.qtyS, productInfo.p1UOM)}
+      </TableCell>
+      <TableCell>{productInfo.p1UOM}</TableCell>
+      <TableCell>
+        {getPartialPallet(
+          productInfo.qtyS,
+          productInfo.plUOM,
+          productInfo.msUOM
+        )}
+      </TableCell>
+
+      <TableCell>{productInfo.transfer}</TableCell>
     </TableRow>
   );
+}
+
+function getPalletSolent(totalQty, UOM) {
+  let totalPl;
+  totalPl = totalQty / UOM;
+  totalPl = Math.floor(totalPl);
+  if (!Number.isInteger(totalPl)) {
+    totalPl = 0;
+  }
+  return totalPl;
+}
+
+function getPartialPallet(totalQty, UOM, msUOM) {
+  let partial;
+  partial = totalQty % UOM;
+  partial = partial / msUOM;
+  return partial;
 }
