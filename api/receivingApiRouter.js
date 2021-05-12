@@ -93,9 +93,8 @@ router.post('/ship_product_on_container', async (req, res) => {
     });
     const saveContainer = await existingContainer.save();
     res.status(200).json({
-      message: 'added product to container',
-      container: existingContainer,
-      saveContainer,
+      message: 'Added Product to Container Form',
+      container: saveContainer,
     });
   } catch (error) {
     console.error(error);

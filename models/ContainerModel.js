@@ -15,6 +15,12 @@ const ContainerSchema = new Schema(
     uwa: { type: String, trim: true },
     isTransfer: { type: String, trim: true, default: 'no' },
     transfer: { type: String, trim: true },
+    transferColor: [
+      {
+        location: { type: String },
+        color: { type: String },
+      },
+    ],
     status: { type: String, trim: true, default: 'draft' },
     size: { type: String, trim: true, default: '24' },
     completion: { type: Number, default: 0 },

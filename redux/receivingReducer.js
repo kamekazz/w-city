@@ -103,13 +103,23 @@ export const acGetOneContainer = (containerId) => async (dispatch) => {
 };
 
 export const acAddProductToContainer = (formData) => async (dispatch) => {
+  dispatch({ type: DISABLED_FORM_BUTTON_ON_RECEIVING });
   try {
     const res = await api.post(
       '/api/receiving_container/ship_product_on_container',
       { ...formData }
     );
-    console.log(res.data);
+    if (res.data.message === 'Added Product to Container Form') {
+      dispatch({
+        type: ADD_STATION_CONTAINER,
+        payload: res.data.container,
+      });
+      dispatch({ type: ACTIVATE_FORM_BUTTON_ON_RECEIVING });
+    } else {
+      dispatch({ type: ACTIVATE_FORM_BUTTON_ON_RECEIVING });
+    }
   } catch (err) {
+    dispatch({ type: ACTIVATE_FORM_BUTTON_ON_RECEIVING });
     console.log(`err###`, err);
   }
 };
