@@ -13,6 +13,7 @@ import {
   acResetProductInfo,
   acSaveUOM,
 } from '../../../../redux/containerAdmin';
+import { acAddProductToContainer } from '../../../../redux/receivingReducer';
 const transferOption = [
   {
     value: 'freeport',
@@ -140,10 +141,12 @@ export default function AddProductToContainerForm() {
   };
   const handelSubmit = (e) => {
     e.preventDefault();
-    let body = { ...inputs, isTransfer };
-    if (isTransfer === 'yes') {
+    let body = { ...inputs, containerId: stationContainer.containerId };
+    if (stationContainer.isTransfer === 'yes') {
       body = { ...body, transfer };
     }
+    body.qtyS = body.totalCount;
+    addLoad(body);
   };
 
   const clearInput = () => {
@@ -155,8 +158,8 @@ export default function AddProductToContainerForm() {
     inputRef.current.focus();
   };
 
-  const addLoad = () => {
-    // dispatch(acAddProductLoad(body));
+  const addLoad = (body) => {
+    dispatch(acAddProductToContainer(body));
     clearInput();
   };
   return (
@@ -232,7 +235,7 @@ export default function AddProductToContainerForm() {
             variant="contained"
             color="primary"
             disabled={disabledFormButton}
-            onClick={addLoad}
+            type="submit"
             className={classes.button}
           >
             add load

@@ -72,5 +72,35 @@ router.get('/:containerId', async (req, res) => {
     return res.status(500).send(`Server error`);
   }
 });
+//localhost:3000/api/receiving_container/ship_product_on_container
+// get one container
+router.post('/ship_product_on_container', async (req, res) => {
+  let productIbm = req.body.ibm;
+  try {
+    const existingContainer = await ContainerModel.findOne({
+      containerId: req.body.containerId,
+    });
+    console.log(`existingContainer`, existingContainer);
+    if (!existingContainer) {
+      return res.status(201).json({ message: `Container Does Not Exist` });
+    }
+    existingContainer.items.push(productIbm);
+    existingContainer.itemsQtyShip.push({
+      ibm: productIbm,
+      qtyS: req.body.qtyS,
+      transfer: req.body.transfer || 'cranberry',
+      itemId: existingContainer.itemsQtyShip.length + 1,
+    });
+    const saveContainer = await existingContainer.save();
+    res.status(200).json({
+      message: 'added product to container',
+      container: existingContainer,
+      saveContainer,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(`Server error`);
+  }
+});
 
 module.exports = router;

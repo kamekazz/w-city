@@ -102,6 +102,18 @@ export const acGetOneContainer = (containerId) => async (dispatch) => {
   }
 };
 
+export const acAddProductToContainer = (formData) => async (dispatch) => {
+  try {
+    const res = await api.post(
+      '/api/receiving_container/ship_product_on_container',
+      { ...formData }
+    );
+    console.log(res.data);
+  } catch (err) {
+    console.log(`err###`, err);
+  }
+};
+
 const initialState = {
   stationContainer: {},
   disabledFormButton: false,
