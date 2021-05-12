@@ -79,17 +79,13 @@ const useStyles = makeStyles({
 
 export default function ProductOnContainer() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const rows = [
-    {
-      ibm: '131000',
-      qtyS: 3000,
-      itemId: getRandomInt(1000),
-      transfer: 'cranberry',
-    },
-  ];
-  const dispatch = useDispatch();
+  const rows = useSelector(
+    (state) => state.receivingReducer.stationContainer.itemsQtyShip
+  );
+
   useEffect(() => {
     dispatch(acGetAllActionContainer());
   }, []);
@@ -102,7 +98,9 @@ export default function ProductOnContainer() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
+  if (!rows) {
+    return <Paper className={classes.root}></Paper>;
+  }
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.container}>

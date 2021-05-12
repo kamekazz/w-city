@@ -146,6 +146,7 @@ export default function AddProductToContainerForm() {
       body = { ...body, transfer };
     }
     body.qtyS = body.totalCount;
+
     addLoad(body);
   };
 
