@@ -148,13 +148,11 @@ function DynamicTableRow({ row }) {
       const res = await api.get(`/api/products/${row.ibm}`);
       if (isSubscribed) {
         setProductInfo({ ...res.data.product, ...row });
-        console.log(productInfo);
       }
     }
     fetchMyAPI();
     return () => (isSubscribed = false);
   }, []);
-  console.log(`productInfo`, productInfo);
   if (!productInfo.alias) {
     return null;
   }
